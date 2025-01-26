@@ -2078,7 +2078,7 @@ function ISAOffsets()
     if (ISA == false) then
         edi = "+0x";
         ed = "-0x";
-    elseif (ISA == true) then<
+    elseif (ISA == true) then
         edi = "0x";
         ed = "-0x";
     end
