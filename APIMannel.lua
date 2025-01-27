@@ -52,9 +52,7 @@ function libs(loz)
 
     if lib == nil then
         gg.alert("Erro: Biblioteca '" .. loz .. "' não encontrada! Certifique-se de que o jogo está rodando e que Il2cpp.so foi carregado.")
-    else
-        gg.toast("Biblioteca " .. loz .. " carregada com sucesso!")
-    end
+     end
 end
 
 function __()
