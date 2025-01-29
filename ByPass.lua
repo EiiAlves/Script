@@ -1,19 +1,4 @@
-gg.clearResults()
-local info = gg.getTargetInfo()
-local Xbit = info.x64 and 'x64 ' or 'x32 '
-
-gg.setVisible(false)
-
--- Informações do jogo
-local Package = info.packageName
-local Version = info.versionName
-local InfoGame = string.format(
-    '\n-- Package  -------->  %s\n-- Version  -------->  %s\n-- Arch   -------->  %s\n---------------------------------------------------------',
-    Package, Version, Xbit
-)
-
 gg.alert("⚠️ EXECUTAR NO MENU DO JOGO ⚠️")
-
 
 -- Baixar APIs apenas se necessário
 io.open("Il2cppApi.lua", "w+"):write(gg.makeRequest("https://raw.githubusercontent.com/kruvcraft21/GGIl2cpp/master/build/Il2cppApi.lua").content):close()
