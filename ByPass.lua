@@ -15,18 +15,20 @@ local InfoGame = string.format(
 gg.alert("⚠️ EXECUTAR NO MENU DO JOGO ⚠️")
 gg.toast("⚡ɪɴᴊᴇᴛᴀɴᴅᴏﾠʙʏᴘᴀꜱꜱ")
 
+
 -- Baixar APIs apenas se necessário
-    io.open("Il2cppApi.lua", "w+"):write(gg.makeRequest("https://raw.githubusercontent.com/kruvcraft21/GGIl2cpp/master/build/Il2cppApi.lua").content):close()
+io.open("Il2cppApi.lua", "w+"):write(gg.makeRequest("https://raw.githubusercontent.com/kruvcraft21/GGIl2cpp/master/build/Il2cppApi.lua").content):close()
 require('Il2cppApi')
 
 Il2cpp({il2cppVersion = 27})
 gg.setVisible(false)
 
-    io.open("Method_Patching_Library_V1.lua", "w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/Method_Patching_Library_V1.lua").content):close()
-
+io.open("Method_Patching_Library_V1.lua", "w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/Method_Patching_Library_V1.lua").content):close()
 require('Method_Patching_Library_V1')
-gg.alert("⚠️ESPERE TERMINAR ⚠️")
+
+gg.alert("⚠️ ESPERE TERMINAR ⚠️")
 gg.toast("ɪɴᴊᴇᴛᴀɴᴅᴏ...")
+
 -- CLASSES E MÉTODOS
 local MethodMap = {
     { "GetIp", "LoadPuntos" },
@@ -37,35 +39,53 @@ local MethodMap = {
     { "Susp", "SaveData" }
 }
 
--- Variáveis de controle
+
 local OffsetsEncontradas = false
 local Results = {}
 
--- Busca métodos com otimização
+
 local function FindMethods()
     if OffsetsEncontradas then return end
 
-    local Fsearch = Il2cpp.FindMethods({
-        "GetIp", "AutoBan", "OnApplicationQuit", "SaveDevice", "SuspChambers", "Susp"
-    })
 
-    for index, method in ipairs(Fsearch) do
-        local varName, className = table.unpack(MethodMap[index])
 
-        for _, v in ipairs(method) do
-            if v.ClassName == className then
-                Results[varName] = "0x" .. v.Offset
-                break
+    local OffsetsParaDesativar = {}
+
+    for _, methodInfo in ipairs(MethodMap) do
+        local methodName = methodInfo[1]
+        local className = methodInfo[2]
+
+
+
+        local search = Il2cpp.FindMethods({ methodName })
+
+        if not search or #search == 0 then
+        else
+            for _, method in ipairs(search[1]) do
+                if method.ClassName == className then
+                    local offset = "0x" .. method.Offset
+                    table.insert(OffsetsParaDesativar, { method = methodName, offset = offset })
+                end
             end
         end
     end
 
-    if Results["AutoBan"] then OffsetsEncontradas = true end
+    if #OffsetsParaDesativar > 0 then
+        for _, entry in ipairs(OffsetsParaDesativar) do
+        
+            HackersHouse.disableMethod({
+                { ['libName'] = "libil2cpp", ['offset'] = entry.offset, ['libIndex'] = 'auto' }
+            })
+        end
+        OffsetsEncontradas = true
+
+    end
 end
 
 -- Ativa o bypass
 local function Bypass()
     FindMethods()
+
     local methodsToDisable = { "GetIp", "AutoBan", "OnApplicationQuit", "SaveDevice", "SuspChambers", "Susp" }
 
     for _, methodName in ipairs(methodsToDisable) do
