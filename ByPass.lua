@@ -58,40 +58,55 @@ local function salvarStatus()
     end
 end
 
--- Busca métodos e desativa todos
+-- Busca métodos com otimização
 local function FindMethods()
     if OffsetsEncontradas then return end
 
 
-    -- Criar tabela para armazenar offsets
+
+    -- Criar tabela para armazenar offsets corretas
     local OffsetsParaDesativar = {}
 
     for _, methodInfo in ipairs(MethodMap) do
         local methodName = methodInfo[1]
         local className = methodInfo[2]
 
+        
 
-        -- Buscar métodos pelo nome
+        -- Buscar o método exato
         local search = Il2cpp.FindMethods({ methodName })
 
-        if not search or #search == 0 then
-        else
+        if search and #search > 0 then
+
+            -- Inicializar variável para armazenar a offset correta
+            local offsetCorreta = nil
+
             for _, method in ipairs(search[1]) do
                 if method.ClassName == className then
                     local offset = "0x" .. method.Offset
-                    table.insert(OffsetsParaDesativar, { method = methodName, offset = offset })
+                    
+
+                    -- Sempre salva a última offset encontrada, pois muitas vezes a correta está no final
+                    offsetCorreta = offset
                 end
             end
+
+            if offsetCorreta then
+                OffsetsParaDesativar[methodName] = offsetCorreta
+                
+            
+            end
+      
         end
     end
 
     -- Se encontrou offsets, desativa todas
-    if #OffsetsParaDesativar > 0 then
-        for _, entry in ipairs(OffsetsParaDesativar) do
-        
+    if next(OffsetsParaDesativar) then
+        for method, offset in pairs(OffsetsParaDesativar) do
             HackersHouse.disableMethod({
-                { ['libName'] = "libil2cpp", ['offset'] = entry.offset, ['libIndex'] = 'auto' }
+                { ['libName'] = "libil2cpp", ['offset'] = offset, ['libIndex'] = 'auto' }
             })
+            
         end
         OffsetsEncontradas = true
 
@@ -100,27 +115,11 @@ end
 
 -- Ativa o bypass
 local function Bypass()
-if bypassExecutado then
-        gg.toast("⚠️ Bypass já foi executado anteriormente.")
-        return  -- Pula o bypass se já foi feito
-    end
     FindMethods()
-
-    local methodsToDisable = { "GetIp", "AutoBan", "OnApplicationQuit", "SaveDevice", "SuspChambers", "Susp" }
-
-    for _, methodName in ipairs(methodsToDisable) do
-        if Results[methodName] then
-            HackersHouse.disableMethod({
-                { ['libName'] = "libil2cpp", ['offset'] = Results[methodName], ['libIndex'] = 'auto' }
-            })
-        end
-    end
-
     bypassExecutado = true  -- Marca que o Bypass foi executado
     salvarStatus()  -- Salva o estado no arquivo
     gg.toast("ʙʏᴘᴀssﾠᴀᴛɪᴠᴀᴅᴏツ")
 end
 
-lerStatus()
-
+-- Executar o bypass diretamente
 Bypass()
