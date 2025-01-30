@@ -16,6 +16,7 @@ gg.sleep(1000)
 
 -- CLASSES E MÉTODOS
 local MethodMap = {
+    { "GetServerTime", "LoadPuntos"},
     { "GetIp", "LoadPuntos" },
     { "AutoBan", "SaveData" },
     { "OnApplicationQuit", "SaveData" },
