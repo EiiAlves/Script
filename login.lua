@@ -14,7 +14,7 @@ end
 function login()
     local input = gg.prompt({"Usuário:", "Senha:"}, nil, {"text", "text"})
     if input == nil then
-        gg.alert("Operação cancelada.")
+        gg.alert("Erro.")
         login()
     end
     
