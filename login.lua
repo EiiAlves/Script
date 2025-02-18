@@ -25,7 +25,7 @@ function login()
     local input = gg.prompt({"Usuário:", "Senha:"}, nil, {"text", "text"})
     if input == nil then
         gg.alert("Operação cancelada.")
-        return
+        login()
     end
     
     local usuario = input[1]
@@ -40,12 +40,15 @@ function login()
                 gg.alert("✅ Login bem-sucedido! Bem-vindo, " .. usuario .. "!\nSua conta expira em " .. dados.expira_em)
             else
                 gg.alert("❌ Sua conta expirou em " .. dados.expira_em)
+                os.exit()
             end
         else
             gg.alert("❌ Senha incorreta.")
+            os.exit()
         end
     else
         gg.alert("❌ Usuário não encontrado.")
+        os.exit()
     end
 end
 
