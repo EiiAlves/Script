@@ -25,8 +25,7 @@ function data_para_numero(data)
 local dia, mes, ano = data:match("(%d%d)/(%d%d)/(%d%d%d%d)")
 if dia and mes and ano then
         return tonumber(ano .. mes .. dia) -- Formato AAAAMMDD para fácil comparação
-        return tonumber(ano .. mes .. dia)
-end
+        end
 return 0
 end
 
