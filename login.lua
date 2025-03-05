@@ -37,7 +37,7 @@ function login()
             if dados.senha == senha then
                 local hoje = os.date("%d/%m/%Y")
                 if data_para_numero(hoje) <= data_para_numero(dados.expira_em) then
-            gg.toast("✅🃏 Login bem-sucedido! Bem-vindo, " .. usuario)
+            gg.toast("✅ Login bem-sucedido! Bem-vindo, " .. usuario)
                     return usuario, dados
                 else
                     gg.alert("❌ Sua conta expirou em " .. dados.expira_em)
@@ -54,6 +54,4 @@ function login()
     end
 end
 
-usuario_logado, dados_logado = login()
-gg.alert("Debug:\nUsuário: " .. tostring(usuario_logado) .. "\nExpira: " .. tostring(dados_logado and dados_logado.expira_em or "N/A"))
-return usuario_logado, dados_logado
+return usuario_logado, TeelaLogin_users[usuario_logado]
