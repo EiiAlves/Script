@@ -53,5 +53,6 @@ function login()
         end
     end
 end
+gg.alert("Debug Login.lua:\nUsuário: " .. tostring(usuario_logado) .. "\nExpira: " .. tostring(TeelaLogin_users[usuario_logado] and TeelaLogin_users[usuario_logado].expira_em or "N/A"))
 
 return usuario_logado, TeelaLogin_users[usuario_logado]
