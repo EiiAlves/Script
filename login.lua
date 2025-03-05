@@ -55,4 +55,5 @@ function login()
 end
 
 usuario_logado, dados_logado = login()
+gg.alert("Debug:\nUsuário: " .. tostring(usuario_logado) .. "\nExpira: " .. tostring(dados_logado and dados_logado.expira_em or "N/A"))
 return usuario_logado, dados_logado
