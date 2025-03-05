@@ -54,4 +54,5 @@ function login()
     end
 end
 
-return login()
+usuario_logado, dados_logado = login()
+return usuario_logado, dados_logado
