@@ -4,6 +4,7 @@ if not response or not response.content then
     gg.alert("❌ Erro ao acessar a lista de usuários.")
     os.exit()
 end
+gg.alert("Conteúdo recebido do GitHub:\n" .. response.content)
 
 local success, err = pcall(load(response.content))
 if not success then
