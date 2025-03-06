@@ -103,4 +103,3 @@ local function Bypass()
 end
 
 lerStatus()
-Bypass()
