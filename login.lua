@@ -50,7 +50,8 @@ local function lerStatusLogin()
         local timestamp = file:read("*l")   -- Lê o timestamp
         file:close()
 
-        if usuarioSalvo and timestamp then
+        -- Verifica se o timestamp é válido
+        if usuarioSalvo and timestamp and tonumber(timestamp) then
             local currentTime = os.time()
             local tempoLimite = 7 * 24 * 60 * 60 -- 1 semana (em segundos)
             if currentTime - tonumber(timestamp) < tempoLimite then
@@ -90,7 +91,6 @@ function login()
         gg.alert("✅ Você já está logado como: " .. usuarioSalvo .. "\n\nBem-vindo de volta!")
         usuario = usuarioSalvo
         dados = TeelaLogin_users[usuario]
-        START() -- Vai direto para o menu
         return
     end
 
@@ -150,10 +150,11 @@ function login()
         if manterLogado then
             salvarStatusLogin(usuario) -- Salva o status do login
         end
-        START() -- Vai para o menu
     else
         gg.alert("❌ Sua conta expirou em: " .. dados.expira_em)
         os.exit()
     end
 end
+
+-- Executa o login
 login()
