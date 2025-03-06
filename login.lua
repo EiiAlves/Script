@@ -1,6 +1,9 @@
 usuario = nil
 dados = {}
 
+-- Arquivo para armazenar o status do login
+local loginStatusFile = "loginStatus.txt"
+
 -- Função para carregar os usuários
 local response = gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/TeelaLogin_users.lua")
 
@@ -8,11 +11,11 @@ if response and response.content then
     local success, err = pcall(load(response.content))
     
     if not success then
-        gg.alert("Erro ao carregar usuários: " .. tostring(err))
+        gg.alert("❌ Erro ao carregar usuários: " .. tostring(err))
         os.exit()
     end
 else
-    gg.alert("Erro ao acessar a lista de usuários.")
+    gg.alert("❌ Erro ao acessar a lista de usuários.")
     os.exit()
 end
 
@@ -25,16 +28,56 @@ function data_para_numero(data)
     return 0
 end
 
+-- Função para ler o status do login
+local function lerStatusLogin()
+    local file = io.open(loginStatusFile, "r")
+    if file then
+        local usuarioSalvo, timestamp = file:read("*l", "*l")
+        file:close()
+        local currentTime = os.time()
+        local tempoLimite = 7 * 24 * 60 * 60 -- 1 semana (em segundos)
+        if usuarioSalvo and timestamp and (currentTime - tonumber(timestamp) < tempoLimite) then
+            return usuarioSalvo, timestamp
+        end
+    end
+    return nil
+end
+
+-- Função para salvar o status do login
+local function salvarStatusLogin(usuario)
+    local file = io.open(loginStatusFile, "w")
+    if file then
+        local currentTime = os.time()
+        file:write(usuario .. "\n" .. currentTime)
+        file:close()
+    end
+end
+
 -- Função de login
 function login()
-    local input = gg.prompt({"Usuário:", "Senha:"}, nil, {"text", "text"})
+    -- Verifica se o usuário já está logado recentemente
+    local usuarioSalvo, timestamp = lerStatusLogin()
+    if usuarioSalvo then
+        gg.alert("✅ Você já está logado como: " .. usuarioSalvo .. "\n\nBem-vindo de volta!")
+        return
+    end
+
+    -- Interface de login aprimorada
+    gg.toast("🔒 Tela de Login")
+    local input = gg.prompt(
+        {"Usuário:", "Senha:", "Manter logado?"}, 
+        nil, 
+        {"text", "text", "checkbox"}
+    )
+
     if input == nil then
-        gg.alert("Operação cancelada.")
+        gg.alert("❌ Operação cancelada.")
         return
     end
 
     usuario = input[1]
     local senha = input[2]
+    local manterLogado = input[3] -- true/false, dependendo da escolha do usuário
 
     -- Verifica se a tabela TeelaLogin_users foi carregada corretamente
     if not TeelaLogin_users then
@@ -71,9 +114,15 @@ function login()
     -- Compara a data de expiração com a data atual
     local hoje = os.date("%d/%m/%Y")
     if data_para_numero(hoje) <= data_para_numero(dados.expira_em) then
-        gg.alert("✅ Login bem-sucedido! Bem-vindo, " .. usuario .. "!\nSua conta expira em " .. dados.expira_em)
+        gg.alert("✅ Login bem-sucedido!\n\nBem-vindo, " .. usuario .. "!\nSua conta expira em: " .. dados.expira_em)
+        if manterLogado then
+            salvarStatusLogin(usuario) -- Salva o status do login
+        end
     else
-        gg.alert("❌ Sua conta expirou em " .. dados.expira_em)
+        gg.alert("❌ Sua conta expirou em: " .. dados.expira_em)
         os.exit()
     end
 end
+
+-- Executa o login
+login()
