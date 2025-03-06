@@ -25,7 +25,7 @@ local MethodMap = {
 local OffsetsEncontradas = false
 local Results = {}
 local bypassExecutado = false
-local statusFile = "bypassStatus.txt"
+local statusFile = "/storage/emulated/0/Android/data/com.ariel.zanyants/cache/bypassStatus.txt"
 
 local function lerStatus()
     local file = io.open(statusFile, "r")
