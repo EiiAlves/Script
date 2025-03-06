@@ -2,7 +2,7 @@ usuario = nil
 dados = {}
 
 -- Arquivo para armazenar o status do login
-local loginStatusFile = "/storage/emulated/0/Android/data/com.ariel.zanyants/cache/loginStatus.txt"
+ loginStatusFile = "/storage/emulated/0/Android/data/com.ariel.zanyants/cache/loginStatus.txt"
 
 -- Função para carregar os usuários
 local response = gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/TeelaLogin_users.lua")
@@ -29,7 +29,7 @@ function data_para_numero(data)
 end
 
 -- Função para verificar se o arquivo existe
-local function arquivoExiste(caminho)
+function arquivoExiste(caminho)
     local file = io.open(caminho, "r")
     if file then
         file:close()
@@ -39,12 +39,12 @@ local function arquivoExiste(caminho)
 end
 
 -- Função para ler o status do login
-local function lerStatusLogin()
+function lerStatusLogin()
     if not arquivoExiste(loginStatusFile) then
         return nil -- Retorna nil se o arquivo não existir
     end
 
-    local file = io.open(loginStatusFile, "r")
+ local file = io.open(loginStatusFile, "r")
     if file then
         local usuarioSalvo = file:read("*l") -- Lê o nome do usuário
         local timestamp = file:read("*l")   -- Lê o timestamp
@@ -63,7 +63,7 @@ local function lerStatusLogin()
 end
 
 -- Função para salvar o status do login
-local function salvarStatusLogin(usuario)
+ function salvarStatusLogin(usuario)
     local file = io.open(loginStatusFile, "w")
     if file then
         local currentTime = os.time()
