@@ -2,7 +2,7 @@ usuario = nil
 dados = {}
 
 -- Arquivo para armazenar o status do login
-local loginStatusFile = "loginStatus.txt"
+local loginStatusFile = "/storage/emulated/0/Android/data/com.ariel.zanyants/cache/loginStatus.txt"
 
 -- Função para carregar os usuários
 local response = gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/TeelaLogin_users.lua")
@@ -73,14 +73,14 @@ local function salvarStatusLogin(usuario)
 end
 
 -- Função para fazer logout
-local function fazerLogout()
+function fazerLogout()
     -- Deleta o arquivo de status
     if arquivoExiste(loginStatusFile) then
         os.remove(loginStatusFile)
     end
-    gg.toast("✅ Logout realizado com sucesso!")
+    gg.toast("Saindo 🏃🏼‍♂️")
     -- Retorna para a tela de login
-    login()
+    os.exit()
 end
 
 -- Função de login
@@ -88,7 +88,7 @@ function login()
     -- Verifica se o usuário já está logado recentemente
     local usuarioSalvo, timestamp = lerStatusLogin()
     if usuarioSalvo then
-        gg.alert("✅ Você já está logado como: " .. usuarioSalvo .. "\n\nBem-vindo de volta!")
+        gg.alert("✅ Bem-vindo de volta!\n\n\n " .. usuarioSalvo .. "\n")
         usuario = usuarioSalvo
         dados = TeelaLogin_users[usuario]
         return
@@ -97,7 +97,7 @@ function login()
     -- Interface de login aprimorada
     gg.toast("🔒 Tela de Login")
     local input = gg.prompt(
-        {"Usuário:", "Senha:", "Manter logado?"}, 
+        {"█▓▒­░⡷⠂👤ᴜꜱᴜᴀʀɪᴏ👤⠐⢾░▒▓█:", "█▓▒­░⡷⠂🔒ꜱᴇɴʜᴀ🔒⠐⢾░▒▓█:", "\b\b\bᴍᴀɴᴛᴇɴʜᴀ-ᴍᴇ ᴄᴏɴᴇᴄᴛᴀᴅᴏ"}, 
         nil, 
         {"text", "text", "checkbox"}
     )
@@ -146,15 +146,14 @@ function login()
     -- Compara a data de expiração com a data atual
     local hoje = os.date("%d/%m/%Y")
     if data_para_numero(hoje) <= data_para_numero(dados.expira_em) then
-        gg.alert("✅ Login bem-sucedido!\n\nBem-vindo, " .. usuario .. "!\nSua conta expira em: " .. dados.expira_em)
+        gg.alert("✅ Login bem-sucedido!")
         if manterLogado then
             salvarStatusLogin(usuario) -- Salva o status do login
         end
+  
     else
         gg.alert("❌ Sua conta expirou em: " .. dados.expira_em)
         os.exit()
     end
 end
-
--- Executa o login
 login()
