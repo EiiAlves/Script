@@ -23,7 +23,7 @@ local Results = {}
 local bypassExecutado = false
 local statusFile = "/storage/emulated/0/Android/data/com.ariel.zanyants/cache/bypassStatus.txt"
 
-local function lerStatus()
+ function lerStatus()
     local file = io.open(statusFile, "r")
     if file then
         local status, timestamp = file:read("*l", "*l")
@@ -36,7 +36,7 @@ local function lerStatus()
     end
 end
 
-local function salvarStatus()
+function salvarStatus()
     local file = io.open(statusFile, "w")
     if file then
         local currentTime = os.time()
