@@ -32,23 +32,25 @@ end
 local function lerStatusLogin()
     local file = io.open(loginStatusFile, "r")
     if file then
-        local usuarioSalvo, timestamp = file:read("*l", "*l")
+        local usuarioSalvo = file:read("*l")
+        local expira_em = file:read("*l")
+        local timestamp = file:read("*l")
         file:close()
         local currentTime = os.time()
         local tempoLimite = 7 * 24 * 60 * 60 -- 1 semana (em segundos)
-        if usuarioSalvo and timestamp and (currentTime - tonumber(timestamp) < tempoLimite) then
-            return usuarioSalvo, timestamp
+        if usuarioSalvo and expira_em and timestamp and (currentTime - tonumber(timestamp) < tempoLimite) then
+            return usuarioSalvo, expira_em, timestamp
         end
     end
     return nil
 end
 
 -- Função para salvar o status do login
-local function salvarStatusLogin(usuario)
+local function salvarStatusLogin(usuario, expira_em)
     local file = io.open(loginStatusFile, "w")
     if file then
         local currentTime = os.time()
-        file:write(usuario .. "\n" .. currentTime)
+        file:write(usuario .. "\n" .. expira_em .. "\n" .. currentTime)
         file:close()
     end
 end
@@ -56,9 +58,11 @@ end
 -- Função de login
 function login()
     -- Verifica se o usuário já está logado recentemente
-    local usuarioSalvo, timestamp = lerStatusLogin()
+    local usuarioSalvo, expira_em, timestamp = lerStatusLogin()
     if usuarioSalvo then
         gg.alert("✅ Você já está logado como: " .. usuarioSalvo .. "\n\nBem-vindo de volta!")
+        usuario = usuarioSalvo
+        dados.expira_em = expira_em
         return
     end
 
@@ -116,12 +120,12 @@ function login()
     if data_para_numero(hoje) <= data_para_numero(dados.expira_em) then
         gg.alert("✅ Login bem-sucedido!\n\nBem-vindo, " .. usuario .. "!\nSua conta expira em: " .. dados.expira_em)
         if manterLogado then
-            salvarStatusLogin(usuario) -- Salva o status do login
+            salvarStatusLogin(usuario, dados.expira_em) -- Salva o status do login
         end
     else
         gg.alert("❌ Sua conta expirou em: " .. dados.expira_em)
         os.exit()
     end
 end
-
--- Executa o login
+-- Executa o login e, se bem-sucedido, exibe o menu
+login()
