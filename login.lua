@@ -2,7 +2,7 @@ usuario = nil
 dados = {}
 
 -- Arquivo para armazenar o status do login
- loginStatusFile = "loginStatus.txt"
+ loginStatusFile = "/storage/emulated/0/Documents/loginStatus.txt"
 
 -- Função para carregar os usuários
 local response = gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/TeelaLogin_users.lua")
