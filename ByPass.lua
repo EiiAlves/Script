@@ -6,8 +6,6 @@ gg.setVisible(false)
 
 io.open("Method_Patching_Library_V1.lua", "w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/Method_Patching_Library_V1.lua").content):close()
 require('Method_Patching_Library_V1')
-
-gg.alert("⚠️ ESPERE TERMINAR ⚠️")
 gg.toast("ɪɴᴊᴇᴛᴀɴᴅᴏ...")
 gg.sleep(1000)
 
@@ -78,7 +76,7 @@ local function FindMethods()
     end
 end
 
-local function Bypass()
+ function Bypass()
     if bypassExecutado then
         gg.toast("⚠️ Bypass já foi executado anteriormente.")
     else gg.alert("⚠️ EXECUTAR NO MENU DO JOGO ⚠️")
