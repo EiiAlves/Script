@@ -125,4 +125,3 @@ function login()
 end
 
 -- Executa o login
-login()
