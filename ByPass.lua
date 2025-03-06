@@ -1,5 +1,3 @@
-gg.alert("⚠️ EXECUTAR NO MENU DO JOGO ⚠️")
-
 io.open("Il2cppApi.lua", "w+"):write(gg.makeRequest("https://raw.githubusercontent.com/kruvcraft21/GGIl2cpp/master/build/Il2cppApi.lua").content):close()
 require('Il2cppApi')
 
@@ -83,6 +81,8 @@ end
 local function Bypass()
     if bypassExecutado then
         gg.toast("⚠️ Bypass já foi executado anteriormente.")
+    else gg.alert("⚠️ EXECUTAR NO MENU DO JOGO ⚠️")
+
         return
     end
     FindMethods()
