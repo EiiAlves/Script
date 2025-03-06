@@ -79,10 +79,9 @@ end
  function Bypass()
     if bypassExecutado then
         gg.toast("⚠️ Bypass já foi executado anteriormente.")
-    else gg.alert("⚠️ EXECUTAR NO MENU DO JOGO ⚠️")
-
         return
     end
+    gg.alert("⚠️ EXECUTAR NO MENU DO JOGO ⚠️")
     FindMethods()
 
     local methodsToDisable = { "GetIp", "AutoBan", "OnApplicationQuit", "SaveDevice", "SuspChambers", "Susp" }
