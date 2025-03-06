@@ -28,16 +28,34 @@ function data_para_numero(data)
     return 0
 end
 
+-- Função para verificar se o arquivo existe
+local function arquivoExiste(caminho)
+    local file = io.open(caminho, "r")
+    if file then
+        file:close()
+        return true
+    end
+    return false
+end
+
 -- Função para ler o status do login
 local function lerStatusLogin()
+    if not arquivoExiste(loginStatusFile) then
+        return nil -- Retorna nil se o arquivo não existir
+    end
+
     local file = io.open(loginStatusFile, "r")
     if file then
-        local usuarioSalvo, timestamp = file:read("*l", "*l")
+        local usuarioSalvo = file:read("*l") -- Lê o nome do usuário
+        local timestamp = file:read("*l")   -- Lê o timestamp
         file:close()
-        local currentTime = os.time()
-        local tempoLimite = 7 * 24 * 60 * 60 -- 1 semana (em segundos)
-        if usuarioSalvo and timestamp and (currentTime - tonumber(timestamp) < tempoLimite) then
-            return usuarioSalvo, timestamp
+
+        if usuarioSalvo and timestamp then
+            local currentTime = os.time()
+            local tempoLimite = 7 * 24 * 60 * 60 -- 1 semana (em segundos)
+            if currentTime - tonumber(timestamp) < tempoLimite then
+                return usuarioSalvo, timestamp
+            end
         end
     end
     return nil
@@ -56,7 +74,9 @@ end
 -- Função para fazer logout
 local function fazerLogout()
     -- Deleta o arquivo de status
-    os.remove(loginStatusFile)
+    if arquivoExiste(loginStatusFile) then
+        os.remove(loginStatusFile)
+    end
     gg.toast("✅ Logout realizado com sucesso!")
     -- Retorna para a tela de login
     login()
