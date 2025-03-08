@@ -45,7 +45,7 @@ function salvarStatus()
     end
 end
 
-local function FindMethods()
+function FindMethods()
     if OffsetsEncontradas then return end
 
     local OffsetsParaDesativar = {}
