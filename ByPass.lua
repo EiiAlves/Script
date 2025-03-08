@@ -20,7 +20,7 @@ local MethodMap = {
 
 local OffsetsEncontradas = false
 local Results = {}
-local bypassExecutado = false
+ bypassExecutado = false
 local statusFile = "/storage/emulated/0/Documents/bypassStatus.txt"
 
  function lerStatus()
