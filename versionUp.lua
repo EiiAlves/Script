@@ -1,43 +1,21 @@
-local versionFilePath = "/sdcard/.fabricplay/versao.txt"
+function checkAndUploadVersion()
+    local url = "https://fabicplay.x10.bz/versao.txt"
 
-function saveLocalVersion(version)
-    os.execute("mkdir -p /sdcard/.fabricplay") -- Cria a pasta oculta se não existir
-    local file = io.open(versionFilePath, "w")
-    if file then
-        file:write(version)
-        file:close()
-    else
-        gg.alert("Erro ao salvar a versão local.")
-    end
-end
+    -- Obtém a versão do jogo no GameGuardian
+    local info = gg.getTargetInfo()
+    local gameVersion = info.versionName
 
-function getLocalVersion()
-    local file = io.open(versionFilePath, "r")
-    if file then
-        local version = file:read("*a")
-        file:close()
-        return version:match("%S+") -- Remove espaços extras
-    end
-    return nil
-end
-
-function checkVersion()
-    local gameVersion = gg.getTargetInfo().versionName -- Obtém a versão do jogo
-    local url = "https://fabicplay.x10.bz/uploads/versao.txt"
+    -- Faz a requisição para obter a versão salva na nuvem
     local response = gg.makeRequest(url)
 
-    if response then
-        local serverVersion = response.content:match("%S+")
-        local localVersion = getLocalVersion()
+    if response and response.content then
+        local serverVersion = response.content:match("%S+") -- Remove espaços extras
 
-        if localVersion ~= gameVersion then
-            gg.alert("Nova versão do jogo detectada! Atualizando...")
-            uploadVersion(gameVersion)
-        elseif serverVersion ~= gameVersion then
-            gg.alert("Versão do jogo não corresponde à nuvem! Atualizando...")
+        if serverVersion ~= gameVersion then
+            gg.alert("Versão desatualizada! Atualizando para " .. gameVersion)
             uploadVersion(gameVersion)
         else
-            gg.alert("O jogo está atualizado.")
+            gg.alert("A versão já está atualizada: " .. serverVersion)
         end
     else
         gg.alert("Erro ao verificar a versão na nuvem.")
@@ -46,25 +24,14 @@ end
 
 function uploadVersion(version)
     local url = "https://fabicplay.x10.bz/upload.php"
-    local boundary = "----GGUPLOAD"
-    local body = "--" .. boundary .. "\r\n"
-    body = body .. 'Content-Disposition: form-data; name="file"; filename="versao.txt"\r\n'
-    body = body .. "Content-Type: text/plain\r\n\r\n"
-    body = body .. version .. "\r\n"
-    body = body .. "--" .. boundary .. "--\r\n"
+    local response = gg.makeRequest(url .. "?version=" .. gg.utf8(version))
 
-    local headers = {
-        ["Content-Type"] = "multipart/form-data; boundary=" .. boundary
-    }
-
-    local response = gg.makeRequest(url, { body = body, headers = headers })
-
-    if response then
+    if response and response.content then
         gg.alert("Upload concluído: " .. response.content)
-        saveLocalVersion(version) -- Atualiza a versão local
     else
         gg.alert("Erro ao enviar a versão para a nuvem.")
     end
 end
 
-checkVersion()
+-- Chama a função para verificar e atualizar a versão
+checkAndUploadVersion()
