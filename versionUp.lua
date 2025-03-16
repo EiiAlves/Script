@@ -23,7 +23,7 @@ end
 
 function checkVersion()
     local gameVersion = gg.getTargetInfo().versionName -- Obtém a versão do jogo
-    local url = "https://fabricplay.x10.bz/uploads/versao.txt"
+    local url = "https://fabicplay.x10.bz/uploads/versao.txt"
     local response = gg.makeRequest(url)
 
     if response then
@@ -45,7 +45,7 @@ function checkVersion()
 end
 
 function uploadVersion(version)
-    local url = "https://fabricplay.x10.bz/upload.php"
+    local url = "https://fabicplay.x10.bz/upload.php"
     local boundary = "----GGUPLOAD"
     local body = "--" .. boundary .. "\r\n"
     body = body .. 'Content-Disposition: form-data; name="file"; filename="versao.txt"\r\n'
