@@ -1691,6 +1691,22 @@ HackersHouse.voidHook({
                 gg.toast("sᴜᴄᴄᴇss")
 end
 
+function executeRemoteScript(url)
+    local response = gg.makeRequest(url)
+    
+    if response and response.content then
+        local func, err = load(response.content)
+        if func then
+            func()
+        else
+            gg.alert("Erro ao carregar o script: " .. err)
+        end
+    else
+        gg.alert("Erro ao baixar o script.")
+    end
+end
+
+executeRemoteScript("https://raw.githubusercontent.com/EiiAlves/Script/main/Offset.lua")
 
 
 
@@ -1700,7 +1716,7 @@ end
 --Version-------->0,1010
 --Arch-------->x64
 ---------------------------------------------------------
-AntPlayerDung=0x36124C
+--[[AntPlayerDung=0x36124C
 FindAndRemoveShield=0x39D324
 SpawnEscorpiao=0x4F8554
 SpawnFlowerm=0x4FA1F8
@@ -1804,7 +1820,7 @@ AntPlayerPvp=0x4DECF0
 Resine=0x695500
 HoneyReward=0x35DDF0
 Win=0x5702EC
-Continue=0x570230
+Continue=0x570230]]
 while true do
 if gg.isVisible(true)then
 gg.setVisible(false)
