@@ -14,7 +14,7 @@ if packageName ~= "com.ariel.zanyants" then
     if response and response.content then
         local serverPackageName, serverVersion = response.content:match("(%S+)%s+(%S+)")
 
-        if serverPackageName == packageName then
+        if serverPackageName ~= packageName then
             if serverVersion ~= gameVersion then
                 gg.alert("Versão desatualizada! Atualizando...")
                 updateRemoteVersion(gameVersion)
