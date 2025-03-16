@@ -4,7 +4,11 @@ function checkAndUploadVersion()
     local info = gg.getTargetInfo()
     local gameVersion = info.versionName
     local packageName = info.packageName
-
+if packageName ~= "com.ariel.zanyants" then
+        gg.alert("Este script só pode ser executado no jogo correto!")
+        return
+        gg.exit()
+    end
     local response = gg.makeRequest(url)
 
     if response and response.content then
