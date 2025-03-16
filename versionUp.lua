@@ -2,9 +2,16 @@ function checkAndUpdateOffsets()
     local versionUrl = "https://fabicplay.x10.bz/versao.txt"
     local updateUrl = "https://fabicplay.x10.bz/update_offsets.php"
 
-    -- Obtém a versão do jogo
+    -- Obtém informações do jogo
     local info = gg.getTargetInfo()
     local gameVersion = info.versionName
+    local packageName = info.packageName  -- Verifica o pacote do app
+
+    -- Verifique se o pacote está correto antes de continuar
+    if packageName ~= "com.exemplo.meujogo" then
+        gg.alert("Este script só pode ser executado no jogo correto!")
+        return
+    end
 
     -- Baixa a versão salva na nuvem
     local response = gg.makeRequest(versionUrl)
