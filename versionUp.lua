@@ -24,7 +24,7 @@ end
 
 function uploadVersion(version)
     local url = "https://fabicplay.x10.bz/upload.php"
-    local response = gg.makeRequest(url .. "?version=" .. gg.utf8(version))
+    local response = gg.makeRequest(url .. "?version=" .. version)
 
     if response and response.content then
         gg.alert("Upload concluído: " .. response.content)
