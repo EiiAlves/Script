@@ -57,7 +57,8 @@ function uploadVersion(version)
         ["Content-Type"] = "multipart/form-data; boundary=" .. boundary
     }
 
-    local response = gg.makeRequest(url, body, headers)
+    local response = gg.makeRequest(url, { body = body, headers = headers })
+
     if response then
         gg.alert("Upload concluído: " .. response.content)
         saveLocalVersion(version) -- Atualiza a versão local
