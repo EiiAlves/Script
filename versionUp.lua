@@ -1,44 +1,39 @@
-function checkAndUpdateOffsets()
-    local versionUrl = "https://fabicplay.x10.bz/versao.txt"
-    local updateUrl = "https://fabicplay.x10.bz/update_offsets.php"
+function checkAndUploadVersion()
+    local url = "https://fabicplay.x10.bz/versao.txt"
 
-    -- Obtém informações do jogo
     local info = gg.getTargetInfo()
     local gameVersion = info.versionName
-    local packageName = info.packageName  -- Verifica o pacote do app
+    local packageName = info.packageName
 
-    -- Verifique se o pacote está correto antes de continuar
-    if packageName ~= "com.ariel.zanyants" then
-        gg.alert("Este script só pode ser executado no jogo correto!")
-        return
-        gg.exit()
-    end
-
-    -- Baixa a versão salva na nuvem
-    local response = gg.makeRequest(versionUrl)
+    local response = gg.makeRequest(url)
 
     if response and response.content then
-        local serverVersion = response.content:match("%S+")
+        local serverPackageName, serverVersion = response.content:match("(%S+)%s+(%S+)")
 
-        if serverVersion ~= gameVersion then
-            gg.alert("Versão diferente! Atualizando offsets no servidor...")
-
-            -- Chama o servidor para rodar o script de atualização
-            local updateResponse = gg.makeRequest(updateUrl .. "?versao=" .. gameVersion)
-
-            if updateResponse and updateResponse.content then
-                gg.alert("Offsets atualizadas no servidor: " .. updateResponse.content)
+        if serverPackageName == packageName then
+            if serverVersion ~= gameVersion then
+                gg.alert("Versão desatualizada! Atualizando...")
+                updateRemoteVersion(gameVersion)
             else
-                gg.alert("Erro ao atualizar offsets no servidor.")
+                gg.alert("A versão já está atualizada.")
             end
         else
-            gg.alert("Versão do jogo está correta. Nenhuma atualização necessária.")
+            gg.alert("Nome do pacote não corresponde.")
         end
     else
         gg.alert("Erro ao verificar a versão na nuvem.")
     end
 end
 
--- Executa a verificação e atualização das offsets
-checkAndUpdateOffsets()
+function updateRemoteVersion(version)
+    local url = "https://fabicplay.x10.bz/upload.php?versao=" .. version
+    local response = gg.makeRequest(url)
 
+    if response and response.content then
+        gg.alert("Atualização enviada: " .. response.content)
+    else
+        gg.alert("Erro ao enviar atualização.")
+    end
+end
+
+checkAndUploadVersion()
