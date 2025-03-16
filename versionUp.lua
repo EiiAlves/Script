@@ -8,9 +8,10 @@ function checkAndUpdateOffsets()
     local packageName = info.packageName  -- Verifica o pacote do app
 
     -- Verifique se o pacote está correto antes de continuar
-    if packageName ~= "com.exemplo.meujogo" then
+    if packageName ~= "com.ariel.zanyants" then
         gg.alert("Este script só pode ser executado no jogo correto!")
         return
+        gg.exit()
     end
 
     -- Baixa a versão salva na nuvem
