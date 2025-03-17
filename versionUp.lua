@@ -14,7 +14,9 @@ function checkAndUploadVersion()
         local serverPackageName, serverVersion = response.content:match("(%S+)%s+(%S+)")
 
         -- Verifica se o nome do pacote corresponde
-        if serverPackageName == packageName then
+        if serverPackageName ~= packageName then
+            return
+            gg.exit()
             -- Verifica se a versão está desatualizada
             if serverVersion ~= gameVersion then
                 -- Atualiza a versão no servidor
