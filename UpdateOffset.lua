@@ -415,8 +415,3 @@ for index, method in ipairs(Fsearch) do
 end
 
 
--- Imprime as offsets no formato Nome=Offset
-for name, offset in pairs(Results) do
-    print(name .. "=" .. offset)
-end
-
