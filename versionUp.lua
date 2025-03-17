@@ -36,3 +36,4 @@ function uploadVersion(version)
 end
 -- Executa a verificação e atualização das offsets
 checkAndUpdateOffsets()
+uploadVersion()
