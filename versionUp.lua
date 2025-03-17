@@ -1,6 +1,5 @@
 function checkAndUpdateOffsets()
-    local version = "https://fabicplay.x10.bz/versao.txt"
-    
+    local versionUrl = "https://fabicplay.x10.bz/versao.txt"
 
     -- Obtém informações do jogo
     local info = gg.getTargetInfo()
@@ -10,8 +9,8 @@ function checkAndUpdateOffsets()
     -- Verifique se o pacote está correto antes de continuar
     if packageName ~= "com.ariel.zanyants" then
         gg.alert("Este script só pode ser executado no jogo correto!")
-        return
         gg.exit()
+        return
     end
 
     -- Baixa a versão salva na nuvem
@@ -21,19 +20,26 @@ function checkAndUpdateOffsets()
         local serverVersion = response.content:match("%S+")
 
         if serverVersion ~= gameVersion then
-            gg.alert("Jogo desatualizado")
-            
-         end
+            gg.alert("Atualizando offsets...")
+            uploadVersion(gameVersion) -- Chama a função com a versão correta
+        end
     else
         gg.alert("Erro ao verificar a versão na nuvem.")
     end
 end
+
 function uploadVersion(version)
     local url = "https://fabicplay.x10.bz/upload.php"
     
     -- Envia a nova versão para o servidor
     local response = gg.makeRequest(url .. "?version=" .. version)
+
+    if response and response.content then
+        gg.toast("Ok")
+    else
+        gg.alert("Erro ao enviar a versão para o servidor.")
+    end
 end
+
 -- Executa a verificação e atualização das offsets
 checkAndUpdateOffsets()
-uploadVersion()
