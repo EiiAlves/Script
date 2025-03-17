@@ -28,6 +28,11 @@ function checkAndUpdateOffsets()
         gg.alert("Erro ao verificar a versão na nuvem.")
     end
 end
-
+function uploadVersion(version)
+    local url = "https://fabicplay.x10.bz/upload.php"
+    
+    -- Envia a nova versão para o servidor
+    local response = gg.makeRequest(url .. "?version=" .. version)
+end
 -- Executa a verificação e atualização das offsets
 checkAndUpdateOffsets()
