@@ -1,5 +1,5 @@
 function checkAndUpdateOffsets()
-    local versionUrl = "https://fabicplay.x10.bz/versao.txt"
+    local version = "https://fabicplay.x10.bz/versao.txt"
     
 
     -- Obtém informações do jogo
