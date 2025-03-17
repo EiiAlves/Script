@@ -16,14 +16,15 @@ function checkAndUploadVersion()
         -- Verifica se o nome do pacote corresponde
         if serverPackageName ~= packageName then
             return
+            gg.alert("Jogo Errado")
             gg.exit()
+        end
             -- Verifica se a versão está desatualizada
             if serverVersion ~= gameVersion then
                 -- Atualiza a versão no servidor
                 uploadVersion(gameVersion)
             end
         end
-    end
 end
 
 function uploadVersion(version)
