@@ -22,9 +22,6 @@ function checkAndUpdateOffsets()
 
         if serverVersion ~= gameVersion then
             gg.alert("Jogo desatualizado")
-            -- Chama o servidor para rodar o script de atualização
-            local updateResponse = gg.makeRequest(updateUrl .. "?versao=" .. gameVersion)
-
             
          end
     else
