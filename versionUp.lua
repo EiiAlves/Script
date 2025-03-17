@@ -15,7 +15,7 @@ function checkAndUploadVersion()
 
         -- Verifica se o nome do pacote corresponde
         if serverPackageName ~= packageName then
-            return
+        
             gg.alert("Jogo Errado")
             gg.exit()
         end
