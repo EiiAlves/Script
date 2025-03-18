@@ -21,6 +21,9 @@ function checkAndUpdateOffsets()
 
         if serverVersion ~= gameVersion then
             gg.alert("Atualizando offsets...")
+            gg.toast("Isso pode demorar")
+            io.open("UpdateOffset.lua","w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/UpdateOffset.lua").content):close()
+require('UpdateOffset')
             uploadVersion(gameVersion) -- Chama a função com a versão correta
         end
     else
