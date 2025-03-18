@@ -26,8 +26,6 @@ function checkAndUpdateOffsets()
 require('UpdateOffset')
             uploadVersion(gameVersion) -- Chama a função com a versão correta
         end
-    else
-        gg.alert("Erro ao verificar a versão na nuvem.")
     end
 end
 
