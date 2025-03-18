@@ -16,8 +16,8 @@ require('APIMannel')
 io.open("login.lua","w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/login.lua").content):close()
 require('login')
 
-io.open("UpdateOffset.lua","w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/UpdateOffset.lua").content):close()
-require('UpdateOffset')
+io.open("versionUp.lua","w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/versionUp.lua").content):close()
+require('versionUp')
 --[[io.open("ByPass.lua","w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/ByPass.lua").content):close()
 require('ByPass')]]
 
