@@ -203,7 +203,7 @@ end
                     if new_menu[1] then SpawnFantasma() end
                     if new_menu[2] then SpawnOrquidea() end
                     if new_menu[3] then SpawnFlorM() end
-                    if new_menu[4] then SpawnJóia() end
+                    if new_menu[4] then SpawnJoia() end
                     if new_menu[5] then SpawnEstandarte() end
                     if new_menu[6] then SpawnLibelulaAzul() end
                     if new_menu[7] then SpawnEsmeralda() end
@@ -224,7 +224,7 @@ end
                     if new_menu[22] then SpawnJJunc() end
                     if new_menu[23] then SpawnBButter() end
                     if new_menu[24] then SpawnMariposaX() end
-                    if new_menu[25] then SpawnMariposaDecaída() end
+                    if new_menu[25] then SpawnMariposaDecaida() end
                     if new_menu[26] then SpawnVespaVermelha() end
 
                     -- Opção para voltar ao menu principal
@@ -808,7 +808,7 @@ endhook(UpdatePopulateMap ,1)
 gg.toast("Spawned ✅")
 end
 
-function SpawnJóia()
+function SpawnJoia()
 hook_void(UpdatePopulateMap, SpawnJewel,1)
 gg.sleep(50)
 endhook(UpdatePopulateMap ,1) 
@@ -948,7 +948,7 @@ endhook(UpdatePopulateMap ,1)
 gg.toast("Spawned ✅")
 end
 
-function SpawnMariposaDecaída()
+function SpawnMariposaDecaida()
 hook_void(UpdatePopulateMap, SpawnDecmoth,1)
 gg.sleep(50)
 endhook(UpdatePopulateMap ,1) 
