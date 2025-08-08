@@ -5,6 +5,41 @@ pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/mai
 pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/login.lua").content))
 ]]
 
+local token = "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" -- seu token classic
+
+local headers = {
+  ["Authorization"] = "token " .. token,
+  ["Accept"] = "application/vnd.github.v3.raw"
+}
+
+-- Função para carregar e executar scripts com token
+function loadPrivateScript(path)
+  local url = "https://api.github.com/repos/EiiAlves/Script/contents/" .. path
+  local response = gg.makeRequest(url, headers)
+
+  if response and response.content then
+    local func, err = load(response.content)
+    if func then
+      local ok, execErr = pcall(func)
+      if not ok then
+        gg.alert("Erro ao executar " .. path .. ":\n" .. tostring(execErr))
+      end
+    else
+      gg.alert("Erro ao carregar " .. path .. ":\n" .. tostring(err))
+    end
+  else
+    gg.alert("Erro ao obter " .. path .. ":\n" .. (response.content or "sem conteúdo"))
+  end
+end
+
+-- Carrega os scripts privados
+loadPrivateScript("TeelaLogin_users.lua")
+loadPrivateScript("login.lua")
+loadPrivateScript("Method_Patching_Library_V1.lua")
+loadPrivateScript("APIMannel.lua")
+
+
+
 gg.setVisible(true)
 
 local Soldado = "❌"
