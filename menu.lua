@@ -46,7 +46,7 @@ end
 
 function START()
     if not usuario or not dados.expira_em then
-        gg.alert("❌ Gay: Usuário não logado ou dados inválidos.")
+        gg.alert("❌ ERRO: Usuário não logado ou dados inválidos.")
         os.exit()
     end
 if not bypassExecutado then
