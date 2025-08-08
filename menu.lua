@@ -1,6 +1,38 @@
-pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/Method_Patching_Library_V1.lua").content))
+
+
+--[[pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/Method_Patching_Library_V1.lua").content))
 pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/APIMannel.lua").content))
 pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/login.lua").content))
+]]
+
+-- mesmo token e headers
+local token = "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"
+local headers = {
+  ["Authorization"] = "token " .. token,
+  ["Accept"] = "application/vnd.github.v3.raw"]
+}
+
+-- função para carregar módulos privados
+function requireRemoto(nome)
+  local url = "https://api.github.com/repos/EiiAlves/Script/contents/" .. nome
+  local response = gg.makeRequest(url, headers)
+  if response and response.content then
+    local ok, erro = pcall(load(response.content))
+    if not ok then
+      gg.alert("Erro em " .. nome .. ":\n" .. erro)
+    end
+  else
+    gg.alert("Erro ao obter: " .. nome)
+  end
+end
+
+-- carregar módulos
+requireRemoto("Method_Patching_Library_V1.lua")
+requireRemoto("APIMannel.lua")
+requireRemoto("login.lua")
+
+-- resto do seu menu normalmente
+gg.alert("Menu carregado com sucesso!")
 
 gg.setVisible(true)
 
