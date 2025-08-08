@@ -1,39 +1,7 @@
--- Token de autenticação GitHub (NUNCA compartilhe publicamente)
-local token = "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"
-
--- Função para carregar scripts privados diretamente do seu repositório
-function carregarScriptPrivado(nomeDoArquivo)
-    local headers = {
-        ["Authorization"] = "token " .. token,
-        ["Accept"] = "application/vnd.github.v3.raw"
-    }
-    local url = "https://api.github.com/repos/EiiAlves/Script/contents/" .. nomeDoArquivo
-    local response = gg.makeRequest(url, headers)
-
-    if response and response.content and #response.content > 0 then
-        local ok, erro = pcall(load(response.content))
-        if not ok then
-            gg.alert("❌ Erro ao executar " .. nomeDoArquivo .. ":\n" .. tostring(erro))
-        end
-    else
-        gg.alert("❌ Erro ao baixar " .. nomeDoArquivo .. ".\nVerifique se o repositório está acessível ou se o nome está correto.")
-    end
-end
-
--- Carregar seus arquivos auxiliares do GitHub privado
-carregarScriptPrivado("Method_Patching_Library_V1.lua")
-carregarScriptPrivado("APIMannel.lua")
-carregarScriptPrivado("login.lua")
-
--- Agora continue o seu código normalmente aqui, o restante do seu main.lua
--- Por exemplo:
--- iniciarMenuPrincipal()
-
-
---[[pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/Method_Patching_Library_V1.lua").content))
+pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/Method_Patching_Library_V1.lua").content))
 pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/APIMannel.lua").content))
 pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/login.lua").content))
-]]
+
 gg.setVisible(true)
 
 local Soldado = "❌"
