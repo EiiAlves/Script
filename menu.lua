@@ -1,29 +1,10 @@
---[[
-    Tool : Method Patching Library
-    Made By : Hackers House
-    Version : 1
-    Brodcast Channel : https://t.me/Hackers_House_YT
-    Chat Support : https://t.me/Hackers_House_YT_chat_group
-    Official Documentation : https://HackersHouse.tech/method-patching-library-game-guardian
-]]
 
-io.open("Method_Patching_Library_V1.lua","w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/Method_Patching_Library_V1.lua").content):close()
-require('Method_Patching_Library_V1')
 
-io.open("APIMannel.lua","w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/APIMannel.lua").content):close()
-require('APIMannel')
-
-io.open("login.lua","w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/login.lua").content):close()
-require('login')
-
-io.open("versionUp.lua","w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/versionUp.lua").content):close()
-require('versionUp')
---[[io.open("ByPass.lua","w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/ByPass.lua").content):close()
-require('ByPass')]]
+pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/Method_Patching_Library_V1.lua").content))
+pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/APIMannel.lua").content))
+pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/login.lua").content))
 
 gg.setVisible(true)
-
-
 
 local Soldado = "❌"
 local Worker = "❌"
@@ -61,7 +42,7 @@ end
 end
 
 
--- Função do menu
+---- Função do menu
 
 function START()
     if not usuario or not dados.expira_em then
@@ -72,6 +53,10 @@ if not bypassExecutado then
         API = gg.makeRequest('https://raw.githubusercontent.com/EiiAlves/Script/main/ByPass.lua').content
 pcall(load(API))
 end
+pcall(load(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/versionUp.lua").content))
+
+
+
     -- Menu com opção de LogOut
     Menu = gg.choice({
         "👤 ᴜꜱᴜᴀʀɪᴏ: " .. usuario .. " | ⏳ ᴇxᴘɪʀᴀ: " .. dados.expira_em,
@@ -119,13 +104,13 @@ end
         if menu[4] then BeeMode() end
     elseif Menu == 5 then
         -- Opção 5 (Recursos)
-        menu = gg.multiChoice({Leafs.."Folha Infinita", Resine.."Resina Infinita", Seeds.."Semente Infinita", Insect.."Inseto Infinito"})
+        menu = gg.multiChoice({Leafs.."Folha Infinita", Resines.."Resina Infinita", Seeds.."Semente Infinita", Insect.."Inseto Infinito"})
         if menu == nil then START() return end
 
-        if menu[3] then Semente() end
-        if menu[1] then Folha() end
-        if menu[2] then Resina() end
-        if menu[4] then Inseto() end
+        if menu[3] then Sementes() end
+        if menu[1] then Folhas() end
+        if menu[2] then Resinas() end
+        if menu[4] then Insetos() end
     elseif Menu == 6 then
         -- Opção 6 (Speed Game)
         SpeedTimer()
@@ -146,7 +131,7 @@ end
                 "Gold 🪙",
                 "Spawn Aranha 🕷️",
                 "Spawn Louva Deus 🦗",
-                "InstaCapture"
+                "InstantCapture"
             }) -- 13 opções
 
             if menu == nil then break end
@@ -203,7 +188,7 @@ end
                     if new_menu[1] then SpawnFantasma() end
                     if new_menu[2] then SpawnOrquidea() end
                     if new_menu[3] then SpawnFlorM() end
-                    if new_menu[4] then SpawnJoia() end
+                    if new_menu[4] then Spawnjoia() end
                     if new_menu[5] then SpawnEstandarte() end
                     if new_menu[6] then SpawnLibelulaAzul() end
                     if new_menu[7] then SpawnEsmeralda() end
@@ -224,7 +209,7 @@ end
                     if new_menu[22] then SpawnJJunc() end
                     if new_menu[23] then SpawnBButter() end
                     if new_menu[24] then SpawnMariposaX() end
-                    if new_menu[25] then SpawnMariposaDecaida() end
+                    if new_menu[25] then SpawnMariposadecaida() end
                     if new_menu[26] then SpawnVespaVermelha() end
 
                     -- Opção para voltar ao menu principal
@@ -360,23 +345,30 @@ function melzinho()
 hook_void(UpdateMovePlayer, TpOutHill,1)   
 gg.sleep(50)
 endhook(UpdateMovePlayer ,1)
+
 hook_void(UpdateMovePlayer, TpDungeon,1)                
 gg.sleep(50)
 endhook(UpdateMovePlayer ,1)                
-        HackersHouse.callAnotherMethod({
-      { ['libName'] = "libil2cpp",
-        ['targetOffset'] = CancelDung, 
-        ['destinationOffset'] = HoneyReward, 
-        ['parameters'] ={}, 
-        ['libIndex'] = 'auto'
+
+hook_void(CancelDung, HoneyReward,1)
+
+
+       --[[ callAnotherMethodLite({
+      libName = "libil2cpp",
+        targetOffset = CancelDung, 
+        destinationOffset = HoneyReward, 
+        parameters ={}, 
+        repeate = 1
       }
-    })
+    )]]
     Mel="✅"
     else
-    HackersHouse.callAnotherMethodOff({
+    --[[HackersHouse.callAnotherMethodOff({
       { ['libName'] = "libil2cpp",
         ['targetOffset'] = CancelDung, 
-        }}) Mel="❌"
+        }})]]
+        endhook(CancelDung,1)
+          Mel="❌"
     end
 end
 
@@ -634,9 +626,12 @@ function PlayerImortal()
 end
 end
 
-function Folha()
+function Folhas()
     if Leafs == "❌" then Leafs = "✅"
-    
+    --[[ Desativar a função no offset 0x4FCAB4
+disable_void(Leaves, "desativa_folha")
+
+--]]
     HackersHouse.disableMethod({
       { ['libName'] = "libil2cpp", 
         ['offset'] = Leaves,
@@ -644,7 +639,11 @@ function Folha()
       }
     })
  gg.toast("Changed ✅")
-    elseif Leaf == "✅" then
+    elseif Leafs == "✅" then
+    
+--[[ Restaurar a função mais tarde
+endhook(Leaves, "desativa_folha")
+]]
     HackersHouse.disableMethodOff({
       { ['libName'] = "libil2cpp", 
         ['offset'] = Leaves,
@@ -655,7 +654,7 @@ function Folha()
 end
 end
 
-function Semente()
+function Sementes()
     if Seeds == "❌" then Seeds = "✅"
     
     HackersHouse.disableMethod({
@@ -676,7 +675,7 @@ function Semente()
 end
 end
 
-function Resina()
+function Resinas()
     if Resines == "❌" then Resines = "✅"
     HackersHouse.disableMethod({
       { ['libName'] = "libil2cpp", 
@@ -696,7 +695,7 @@ function Resina()
 end
 end
 
-function Inseto()
+function Insetos()
     if Insect == "❌" then Insect = "✅"
     HackersHouse.disableMethod({
       { ['libName'] = "libil2cpp", 
@@ -808,7 +807,7 @@ endhook(UpdatePopulateMap ,1)
 gg.toast("Spawned ✅")
 end
 
-function SpawnJoia()
+function Spawn()
 hook_void(UpdatePopulateMap, SpawnJewel,1)
 gg.sleep(50)
 endhook(UpdatePopulateMap ,1) 
@@ -948,7 +947,7 @@ endhook(UpdatePopulateMap ,1)
 gg.toast("Spawned ✅")
 end
 
-function SpawnMariposaDecaida()
+function SpawnMariposadecaida()
 hook_void(UpdatePopulateMap, SpawnDecmoth,1)
 gg.sleep(50)
 endhook(UpdatePopulateMap ,1) 
@@ -967,8 +966,42 @@ endhook(UpdatePopulateMap ,1)
 gg.toast("Spawned ✅")
 end
 function SpawnRandomInsect()
+
+HackersHouse.hijackParameters({
+          
+            { ['libName'] = "libil2cpp",
+              ['offset'] = SpawnGold,
+              ['parameters'] ={ { "bool", true}, }, 
+              ['libIndex'] = 'auto'
+            },
+            
+        })
+ gg.sleep(50)
+ hook_void(UpdatePopulateMap, SpawnGold,1)
+ gg.sleep(12)
+ endhook(UpdatePopulateMap ,1)
+ HackersHouse.hijackParametersOff({
+      { ['libName'] = "libil2cpp",
+        ['offset'] = SpawnGold,
+      }
+    })
+gg.toast("Spawned ✅")
+end
+
+  --[[HackersHouse.hijackParameters({
+      { ['libName'] = "libil2cpp",
+        ['offset'] = SpawnGold,
+        ['parameters'] ={ { "bool", true}}, 
+        ['libIndex'] = 'auto'
+      }
+    })
 hook_void(UpdatePopulateMap, AwakePopulateMap,1)
 
+
+
+    hook_void(AwakePopulateMap, SpawnGold, 1)
+  
+    
 HackersHouse.voidHook({
 
                 { ['libName'] = "libil2cpp",          
@@ -979,11 +1012,9 @@ HackersHouse.voidHook({
                   ['libIndex'] = 'auto'
                 }})
                 gg.sleep(50)
+                endhook(AwakePopulateMap,1)
  endhook(UpdatePopulateMap ,1)
-
-gg.toast("Spawned ✅")
-end
-
+]]
 --➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 
 function Fusao()
@@ -1213,7 +1244,7 @@ HackersHouse.disableMethod({
         ['libIndex'] = 'auto'
       }
     })
-
+hook_void(FuseBT, GoldenBT,1)--[[
 HackersHouse.callAnotherMethod({
       { ['libName'] = "libil2cpp",
         ['targetOffset'] = FuseBT, --FuseBT -- ArmyMenu
@@ -1221,17 +1252,23 @@ HackersHouse.callAnotherMethod({
         ['parameters'] ={}, 
         ['libIndex'] = 'auto'
       }
-    })
+    })]]
     
     Golden="✅"
     gg.toast("Changed ✅")
     gg.alert ("Selecionar Inseto")
     else
+    HackersHouse.disableMethodOff({
+      { ['libName'] = "libil2cpp", 
+        ['offset'] = CheckBonusGolden
+      }
+    })
+    endhook(FuseBT,1)--[[
     HackersHouse.callAnotherMethodOff({
       { ['libName'] = "libil2cpp",
         ['targetOffset'] = FuseBT
         }
-         })
+         })]]
         
          Golden="❌"
             gg.toast("Changed ❌")
@@ -1288,6 +1325,10 @@ end
 end
 
 function Colmeia()
+hook_void(UpdateMovePlayer, StartBee, 1)
+gg.sleep(50)
+endhook(UpdateMovePlayer, 1)
+--[[
 HackersHouse.voidHook({
 
                 { ['libName'] = "libil2cpp",
@@ -1297,7 +1338,7 @@ HackersHouse.voidHook({
                   ['repeat'] = 1,
                   ['libIndex'] = 'auto'
                 }})
-                
+                ]]
 hook_void
 (
 UpdateMovePlayer, TpColmeiaIn ,1)
@@ -1592,6 +1633,7 @@ function FarmTrof()
                     ['libIndex'] = 'auto'
                   }
                 })
+                hook_void(GetPlayer, GetPlayerBot, 1)--[[
            HackersHouse.callAnotherMethod({
               { ['libName'] = "libil2cpp",
                 ['targetOffset'] = GetPlayer,
@@ -1599,7 +1641,7 @@ function FarmTrof()
                 ['parameters'] ={}, 
                 ['libIndex'] = 'auto'
               }
-            })
+            })]]
                 
                 while Trof=="✅" do 
                 Verify()
@@ -1681,7 +1723,8 @@ gg.sleep(500)
 end
 
 function InstaCapture()
-HackersHouse.voidHook({
+hook_void(UpdateFlowerSeeds, ActivateInstaCapture, 1)
+--[[HackersHouse.voidHook({
 
                 { ['libName'] = "libil2cpp",            --Update - Season
                   ['targetOffset'] = UpdateFlowerSeeds,
@@ -1689,26 +1732,11 @@ HackersHouse.voidHook({
                   ['parameters'] ={}, 
                   ['repeat'] = 1,
                   ['libIndex'] = 'auto'
-                }})
+                }})]]
                 gg.toast("sᴜᴄᴄᴇss")
+                
 end
 
-function executeRemoteScript(url)
-    local response = gg.makeRequest(url)
-    
-    if response and response.content then
-        local func, err = load(response.content)
-        if func then
-            func()
-        else
-            gg.alert("Erro ao carregar o script: " .. err)
-        end
-    else
-        gg.alert("Erro ao baixar o script.")
-    end
-end
-
-executeRemoteScript("https://raw.githubusercontent.com/EiiAlves/Script/main/Offset.lua")
 
 
 
@@ -1718,111 +1746,120 @@ executeRemoteScript("https://raw.githubusercontent.com/EiiAlves/Script/main/Offs
 --Version-------->0,1010
 --Arch-------->x64
 ---------------------------------------------------------
---[[AntPlayerDung=0x36124C
-FindAndRemoveShield=0x39D324
-SpawnEscorpiao=0x4F8554
-SpawnFlowerm=0x4FA1F8
-SuspChambers=0x5ECBA8
-TpArvoreOut=0x4B4B70
-CompleteEgg=0x773870
-CheckBonusGolden=0x2FC3DC
-CompleteQueen=0x7732C4
-CompleteLeaf=0x772EA0
-SpawnVespaAsiatica=0x4FE790
-SpawnLibelula=0x4F77B8
-SpawnHisser=0x4FC1CC
-SpawnFlang=0x4FCD74
-UpdatePVPHandler=0x56FD38
-FuseBT=0x306CEC
-TpRedAnts=0x4B4344
-SpawnBorboletaAzul=0x4F826C
-SpawnButter=0x4FDED8
-SpawnJunc=0x4FDBFC
-UpdatePopulateMap=0x501698
-EndBee=0x4ADB5C
-AntSoldado=0x3F6EDC
-SpawnTrilo=0x4FC7A0
-SpawnXBeetle=0x4FBC14
-ClickSkin=0x6B00F0
-BombardierPVP=0x52CB8C
-LoadCoolDown=0x39ED20
-CompleteInsect=0x773440
-SpawnAntler=0x4FB080
-StartBee=0x4AD8C8
-UpdateFindOpponent=0x39DC54
-Susp=0x5EB114
-UpdateSeason=0x6B1BF0
-SpawnSkimmer=0x4FAAB0
-SpawnEmerald=0x4FAD98
-AntWorker=0x4E93EC
-RushPlayer=0x3F234C
-CompleteResine=0x773CA0
-Bombardier=0x5AF890
-SpawnBesouroRhino=0x4F8778
-TpCasa=0x4B3CD4
-PvpCannon=0x534F30
-CompleteHoney=0x773A88
-CancelDung=0x35CDA0
-SpawnManticore=0x4FD62C
-AttractEvent=0x347F00
-Leaves=0x487C54
-SpawnXmoth=0x4FE1C0
-SpawnLugu=0x4FD05C
-CompleteWater=0x773EE4
-SpawnCentopeia=0x4F899C
-PartInse=0x6C69B8
-UpdateColonyMenu=0x7710A0
-AwakePopulateMap=0x4EEA74
-SpawnEmp=0x4FD914
-GoldenBT=0x303754
-SpawnBombardeiro=0x4F8048
-SpawnCyanide=0x4FCA7C
-OnApplicationQuit=0x5ED0D8
-ProgressEvent=0x348880
-ChanceFusion=0x30A944
-SpawnGhost=0x4F9C28
-SpawnFirefly=0x4FB650
-AntPlayer=0x4BC9D8
-SpawnAranha=0x4F79DC
-GetPlayer=0x39F254
-SpawnGold=0x4F6734
-AutoBan=0x5EA630
-CompleteFood=0x772C3C
-AntSoldierPvP=0x59ECB4
-TpColmeiaIn=0x4B4E98
-SpawnChaufer=0x4FBEF0
-GetIp=0x469B28
-TpDungeon=0x4B66D8
-SpawnOrchid=0x4F9F10
-SpawnJewel=0x4FA4E0
-CentAbility=0x73FAE0
-UpdateFarmInsect=0x6EEFF8
-SpawnPink=0x4FC4A8
-CompleteSeed=0x7730B8
-SpawnBesouroTigre=0x4F7E24
-Seed=0x6BA15C
-UpdatePvpCannon=0x536240
-TpColmeiaOut=0x4B5340
-SpawnDecmoth=0x4FE4A8
-CompleteSlave=0x773658
-RewardInsect=0x6F0294
-SpawnSkull=0x4FB938
-SpawnFestive=0x4FD344
-UpdateFlowerSeeds=0x3B5898
-GetPlayerBot=0x39F254
-ClaimReward=0x6B0964
-TpOutHill=0x4B3FD4
-SpawnPennant=0x4FA7C8
-SaveDevice=0x5E79A0
-SpawnLouvaDeus=0x4F7C00
-ActivateInstaCapture=0x3B1F14
-AntPlayerCoop=0x4CF528
-UpdateMovePlayer=0x4B78EC
-AntPlayerPvp=0x4DECF0
-Resine=0x695500
-HoneyReward=0x35DDF0
-Win=0x5702EC
-Continue=0x570230]]
+
+
+--Package-------->com,ariel,zanyants
+--Version-------->0,1010
+--Arch-------->x64
+---------------------------------------------------------
+AntPlayerDung=0x362B34
+FindAndRemoveShield=0x39E164
+SpawnEscorpiao=0x4FDE78
+SpawnFlowerm=0x4FFB1C
+SuspChambers=0x5F7138
+TpArvoreOut=0x4BA6B8
+Continue=0x577D8C
+CompleteEgg=0x782344
+CheckBonusGolden=0x2FC1AC
+CompleteQueen=0x781D98
+CompleteLeaf=0x781974
+SpawnVespaAsiatica=0x504678
+SpawnLibelula=0x4FD0DC
+SpawnHisser=0x501DCC
+SpawnFlang=0x502974
+UpdatePVPHandler=0x577890
+FuseBT=0x306E8C
+TpRedAnts=0x4B9E8C
+SpawnBorboletaAzul=0x4FDB90
+SpawnButter=0x503DC0
+SpawnJunc=0x503AE4
+UpdatePopulateMap=0x5077D0
+EndBee=0x4B3498
+AntSoldado=0x3F842C
+SpawnTrilo=0x5023A0
+SpawnRedwasp=0x500C8C
+SpawnXBeetle=0x501814
+ClickSkin=0x6CBA70
+BombardierPVP=0x5345BC
+LoadCoolDown=0x39ECD4
+CompleteInsect=0x781F14
+SpawnAntler=0x5009A4
+StartBee=0x4B3204
+UpdateFindOpponent=0x39F9AC
+Susp=0x5F56A4
+UpdateSeason=0x6BEC00
+SpawnSkimmer=0x5003D4
+SpawnEmerald=0x5006BC
+AntWorker=0x4EE948
+RushPlayer=0x3F38A8
+CompleteResine=0x782774
+Bombardier=0x5B7C94
+SpawnBesouroRhino=0x4FE09C
+TpCasa=0x4B981C
+PvpCannon=0x53C960
+CompleteHoney=0x78255C
+CancelDung=0x35E1C0
+SpawnManticore=0x50322C
+AttractEvent=0x349144
+Leaves=0x48D270
+SpawnXmoth=0x5040A8
+SpawnLugu=0x502C5C
+CompleteWater=0x7829B8
+SpawnCentopeia=0x4FE2C0
+PartInse=0x6D450C
+UpdateColonyMenu=0x77FAAC
+AwakePopulateMap=0x4F3FBC
+SpawnEmp=0x5037FC
+GoldenBT=0x3037EC
+SpawnBombardeiro=0x4FD96C
+SpawnCyanide=0x50267C
+OnApplicationQuit=0x5F7668
+ProgressEvent=0x349B64
+ChanceFusion=0x30AD24
+SpawnGhost=0x4FF54C
+SpawnFirefly=0x500F74
+UnlockSeasonSkin=0x6BD100
+AntPlayer=0x4C273C
+SpawnAranha=0x4FD300
+GetPlayer=0x39F134
+SpawnGold=0x4FC058
+AutoBan=0x5F4BC4
+CompleteFood=0x781710
+AntSoldierPvP=0x5A6BF8
+TpColmeiaIn=0x4BA9E0
+SpawnChaufer=0x501AF0
+GetIp=0x46ABB0
+TpDungeon=0x4BC220
+SpawnOrchid=0x4FF834
+SpawnJewel=0x4FFE04
+CentAbility=0x74E90C
+UpdateFarmInsect=0x6FD3D4
+SpawnPink=0x5020A8
+CompleteSeed=0x781B8C
+SpawnBesouroTigre=0x4FD748
+Seed=0x6C7508
+UpdatePvpCannon=0x53DC70
+TpColmeiaOut=0x4BAE88
+SpawnDecmoth=0x504390
+CompleteSlave=0x78212C
+RewardInsect=0x6FE670
+SpawnSkull=0x50125C
+SpawnFestive=0x502F44
+UpdateFlowerSeeds=0x3B6994
+GetPlayerBot=0x39F134
+ClaimReward=0x6BD974
+TpOutHill=0x4B9B1C
+SpawnPennant=0x5000EC
+SaveDevice=0x5F13E4
+SpawnLouvaDeus=0x4FD524
+ActivateInstaCapture=0x3B3014
+AntPlayerCoop=0x4D5764
+RBeetleAbility=0x5E0004
+UpdateMovePlayer=0x4BD434
+AntPlayerPvp=0x4E5174
+Resine=0x6A18F4
+HoneyReward=0x35F3C4
+Win=0x577E48
 while true do
 if gg.isVisible(true)then
 gg.setVisible(false)
