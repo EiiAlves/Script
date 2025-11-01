@@ -9,26 +9,30 @@ require('Il2cppApi')
 
 Il2cpp({il2cppVersion = 27})
 
-gg.setVisible(true)
+--[[ 🔥 AutoHookVoid.lua
+Sistema universal de hook automático, ultrarrápido e silencioso
+Compatível com todas as classes/métodos Il2cpp
+Autor: Biel (BeeMode System)
+]]--
+
+-- ⚡ Função otimizada (usa FindClass + FindMethodInClass)
 function AutoHookVoid(className, methodStart, methodUpdate, id)
-local function FindMethodFiltered(methodName)
-        local results = Il2cpp.FindMethods({methodName})
-        if not results or #results == 0 then return nil end
-        for _, group in ipairs(results) do
-            for _, v in ipairs(group) do
-                if v.ClassName == className then
-                    return tonumber(v.Offset, 16)
-                end
-            end
-        end
-        return nil
-    end
+    local cls = Il2cpp.FindClass(className)
+    if not cls then return end
 
-    local o1 = FindMethodFiltered(methodStart)
-    local o2 = FindMethodFiltered(methodUpdate)
-    if not (o1 and o2) then return end
+    local mStart = Il2cpp.FindMethodInClass(cls, methodStart)
+    local mUpdate = Il2cpp.FindMethodInClass(cls, methodUpdate)
 
-    hook_void(o2, o1, id)
+    if not (mStart and mUpdate) then return end
+
+    local oStart = tonumber(mStart.Offset, 16)
+    local oUpdate = tonumber(mUpdate.Offset, 16)
+
+    if not (oStart and oUpdate) then return end
+
+    hook_void(oUpdate, oStart, id)
     gg.sleep(30)
-    endhook(o2, id)
+    endhook(oUpdate, id)
 end
+
+
