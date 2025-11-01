@@ -10,7 +10,7 @@ require('Il2cppApi')
 Il2cpp({il2cppVersion = 27})
 
 gg.setVisible(true)
-
+function AutoHookVoid(className, methodStart, methodUpdate, id)
 local function FindMethodFiltered(methodName)
         local results = Il2cpp.FindMethods({methodName})
         if not results or #results == 0 then return nil end
@@ -31,3 +31,4 @@ local function FindMethodFiltered(methodName)
     hook_void(o2, o1, id)
     gg.sleep(30)
     endhook(o2, id)
+end
