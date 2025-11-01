@@ -15,24 +15,34 @@ Compatível com todas as classes/métodos Il2cpp
 Autor: Biel (BeeMode System)
 ]]--
 
--- ⚡ Função otimizada (usa FindClass + FindMethodInClass)
 function AutoHookVoid(className, methodStart, methodUpdate, id)
     local cls = Il2cpp.FindClass(className)
-    if not cls then return end
+    if not cls then
+        gg.toast("Classe não encontrada: " .. className)
+        return
+    end
 
-    local mStart = Il2cpp.FindMethodInClass(cls, methodStart)
-    local mUpdate = Il2cpp.FindMethodInClass(cls, methodUpdate)
+    -- 🔧 Compatibilidade com diferentes estruturas de retorno
+    local classPtr = cls.Class or cls.Address or cls.class or cls[1]
+    if not classPtr then
+        gg.toast("Endereço de classe inválido para: " .. className)
+        return
+    end
 
-    if not (mStart and mUpdate) then return end
+    local mStart = Il2cpp.FindMethodInClass(classPtr, methodStart)
+    local mUpdate = Il2cpp.FindMethodInClass(classPtr, methodUpdate)
+
+    if not (mStart and mUpdate) then
+        gg.toast("Métodos não encontrados em " .. className)
+        return
+    end
 
     local oStart = tonumber(mStart.Offset, 16)
     local oUpdate = tonumber(mUpdate.Offset, 16)
-
     if not (oStart and oUpdate) then return end
 
+    -- Hook ultrarrápido
     hook_void(oUpdate, oStart, id)
     gg.sleep(30)
     endhook(oUpdate, id)
 end
-
-
