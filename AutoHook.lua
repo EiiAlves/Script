@@ -9,40 +9,26 @@ require('Il2cppApi')
 
 Il2cpp({il2cppVersion = 27})
 
---[[ 🔥 AutoHookVoid.lua
-Sistema universal de hook automático, ultrarrápido e silencioso
-Compatível com todas as classes/métodos Il2cpp
-Autor: Biel (BeeMode System)
-]]--
-
+gg.setVisible(true)
 function AutoHookVoid(className, methodStart, methodUpdate, id)
-    local cls = Il2cpp.FindClass(className)
-    if not cls then
-        gg.toast("Classe não encontrada: " .. className)
-        return
+local function FindMethodFiltered(methodName)
+        local results = Il2cpp.FindMethods({methodName})
+        if not results or #results == 0 then return nil end
+        for _, group in ipairs(results) do
+            for _, v in ipairs(group) do
+                if v.ClassName == className then
+                    return tonumber(v.Offset, 16)
+                end
+            end
+        end
+        return nil
     end
 
-    -- 🔧 Compatibilidade com diferentes estruturas de retorno
-    local classPtr = cls.Class or cls.Address or cls.class or cls[1]
-    if not classPtr then
-        gg.toast("Endereço de classe inválido para: " .. className)
-        return
-    end
+    local o1 = FindMethodFiltered(methodStart)
+    local o2 = FindMethodFiltered(methodUpdate)
+    if not (o1 and o2) then return end
 
-    local mStart = Il2cpp.FindMethodInClass(classPtr, methodStart)
-    local mUpdate = Il2cpp.FindMethodInClass(classPtr, methodUpdate)
-
-    if not (mStart and mUpdate) then
-        gg.toast("Métodos não encontrados em " .. className)
-        return
-    end
-
-    local oStart = tonumber(mStart.Offset, 16)
-    local oUpdate = tonumber(mUpdate.Offset, 16)
-    if not (oStart and oUpdate) then return end
-
-    -- Hook ultrarrápido
-    hook_void(oUpdate, oStart, id)
+    hook_void(o2, o1, id)
     gg.sleep(30)
-    endhook(oUpdate, id)
+    endhook(o2, id)
 end
