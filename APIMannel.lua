@@ -139,3 +139,50 @@ if lib == nil then
     gg.alert("Erro crítico: A biblioteca Il2cpp.so não foi carregada. O script não pode continuar.")
     return
 end
+
+-- 🔧===========================================================
+-- 🔧 Função para desativar hooks criados com hook_void()
+-- 🔧 Inspirado no Method_Patching_Library da HackerHouse
+-- 🔧===========================================================
+
+-- 🧩 Desativa um hook específico pelo ID
+function DisableHook(id)
+    if not xg or not xg[id] or not xg[id][1] then
+        gg.toast("⚠️ Nenhum hook ativo com ID: " .. tostring(id))
+        return false
+    end
+    if not lib then libs("libil2cpp.so") end
+
+    local original = xg[id][1].value
+    local addr = lib + xg[id][1].address - lib  -- recupera offset salvo
+
+    -- restaura valor original e remove freeze
+    gg.setValues({{ address = addr, flags = gg.TYPE_DWORD, value = original, freeze = false }})
+
+    -- limpa da memória
+    xg[id] = nil
+    gg.toast("✅ Hook ID " .. tostring(id) .. " desativado")
+    return true
+end
+
+-- 🧩 Desativa todos os hooks ativos de uma vez
+function DisableAllHooks()
+    if not xg or next(xg) == nil then
+        gg.toast("ℹ️ Nenhum hook ativo encontrado")
+        return false
+    end
+    if not lib then libs("libil2cpp.so") end
+
+    local total = 0
+    for id, data in pairs(xg) do
+        if data[1] then
+            local addr = data[1].address
+            local value = data[1].value
+            gg.setValues({{ address = addr, flags = gg.TYPE_DWORD, value = value, freeze = false }})
+            total = total + 1
+        end
+    end
+    xg = {}
+    gg.toast("🧹 Todos os " .. total .. " hooks foram desativados")
+    return true
+end
