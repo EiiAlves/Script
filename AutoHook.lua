@@ -31,71 +31,26 @@ local function FindMethodFiltered(methodName)
     hook_void(o2, o1, id)
     gg.sleep(30)
     endhook(o2, id)
-end
+end 
+HackersHouse = HackersHouse or {}
+HackersHouse.is64Bit = gg.getTargetInfo().x64
+HackersHouse.disableMethodList = HackersHouse.disableMethodList or { activatedCheats = {} }
 
-function disable_hook(Table)
-    if validateDisableParams(Table) then return end
-
-    local ToEdit = {}
+-- 🔹 validação mínima
+local function validateDisableParams(Table)
+    if type(Table) ~= "table" then return true end
     for i, v in ipairs(Table) do
-        local libName = v.libName or "libil2cpp.so"
-        local LibRanges = gg.getRangesList(libName)
-        if not LibRanges or #LibRanges == 0 then return end
-
-        local libIndex = (v.libIndex == nil or v.libIndex == "auto") and getLibIndex(LibRanges) or v.libIndex
-        local baseAddr = LibRanges[libIndex].start
-        local addr = baseAddr + v.offset
-        local size = tonumber(v.size) or 1
-        if size < 1 then size = 1 end
-
-        -- salva valores originais
-        local defaultList = {}
-        for j = 0, size - 1 do
-            table.insert(defaultList, { address = addr + (j * 4), flags = gg.TYPE_DWORD })
-        end
-        HackersHouse.disableMethodList.activatedCheats[libName .. tostring(v.offset)] = {
-            defaultValues = gg.getValues(defaultList)
-        }
-
-        -- aplica patch
-        ToEdit[i] = {
-            address = addr,
-            flags = gg.TYPE_DWORD,
-            value = HackersHouse.is64Bit and "~A8 RET" or "~A BX LR"
-        }
+        if not v.offset then return true end
     end
-
-    gg.setValues(ToEdit)
+    return false
 end
 
--- 🧩 Restaura método(s) manualmente
-function disable_hookOff(Table)
-    if validateDisableParams(Table) then return end
-
-    local ToRestore = {}
-    local idx = 1
-    for i, v in ipairs(Table) do
-        local libName = v.libName or "libil2cpp.so"
-        local key = libName .. tostring(v.offset)
-        local saved = HackersHouse.disableMethodList.activatedCheats[key]
-
-        if saved and saved.defaultValues then
-            for _, entry in ipairs(saved.defaultValues) do
-                ToRestore[idx] = {
-                    address = entry.address,
-                    flags = entry.flags,
-                    value = entry.value,
-                    freeze = false
-                }
-                idx = idx + 1
-            end
-            HackersHouse.disableMethodList.activatedCheats[key] = nil
-        end
+local function getLibIndex(LIB)
+    for idx, v in ipairs(LIB) do
+        if v.state == "Xa" then return idx end
     end
-
-    if #ToRestore > 0 then gg.setValues(ToRestore) end
+    return 1
 end
-
 -- 🔹 Armazena métodos desativados automaticamente
 HookCache = HookCache or {}
 
