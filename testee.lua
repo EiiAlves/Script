@@ -184,7 +184,7 @@ end
 -- -------------------------------------
 function FindVector3_Class(className, offset, tryHard, bit32)
     Get_user_input = { className, offset or "0", tryHard, bit32 }
-    SearchTypeSelection = 3
+    SearchTypeSelection = 1
     Get_second_field_offset = {"0"}
     
     return run_pipeline()
@@ -215,3 +215,4 @@ return R
 end
 
 Blip()   ]]
+
