@@ -184,7 +184,7 @@ end
 -- -------------------------------------
 function FindVector3_Class(className, offset, tryHard, bit32)
     Get_user_input = { className, offset or "0", tryHard, bit32 }
-    SearchTypeSelection = 1
+    SearchTypeSelection = 3
     Get_second_field_offset = {"0"}
     
     return run_pipeline()
@@ -213,4 +213,5 @@ gg.toast(R[1].value .. R[2].value)
 
 return R
 end
+
 Blip()   ]]
