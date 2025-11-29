@@ -64,7 +64,21 @@ function disable_hook(Table)
 
         local libIndex = (v.libIndex == nil or v.libIndex == "auto") and getLibIndex(LibRanges) or v.libIndex
         local baseAddr = LibRanges[libIndex].start
-        local addr = tonumber(v.methodPointer or v.MethodPointer)
+        -- resolve pointer correto
+local mp = v.MethodPointer or v.methodPointer
+
+if mp == nil then
+    -- fallback: assume v.Offset é RVA relativo a libil2cpp
+    mp = baseAddr + v.offset
+end
+
+local addr = tonumber(mp)
+
+if not addr or addr == 0 then
+    gg.toast("Offset inválido para " .. tostring(v.offset))
+    return
+end
+
         local size = tonumber(v.size) or 1
         if size < 1 then size = 1 end
 
