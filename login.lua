@@ -2,7 +2,7 @@ usuario = nil
 dados = {}
 
 -- Arquivo para armazenar o status do login
- loginStatusFile = "/storage/emulated/0/Documents/loginStatus.txt"
+ loginStatusFile = "/storage/emulated/0/DCIM/loginStatus.txt"
 
 -- Função para carregar os usuários
 local response = gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/TeelaLogin_users.lua")
@@ -109,7 +109,7 @@ function login()
 
     usuario = input[1]
     local senha = input[2]
-    local manterLogado = input[3] -- true/false, dependendo da escolha do usuário
+    local manterLogado = input[3]
 
     -- Verifica se a tabela TeelaLogin_users foi carregada corretamente
     if not TeelaLogin_users then
