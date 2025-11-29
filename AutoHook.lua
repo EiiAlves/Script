@@ -64,7 +64,7 @@ function disable_hook(Table)
 
         local libIndex = (v.libIndex == nil or v.libIndex == "auto") and getLibIndex(LibRanges) or v.libIndex
         local baseAddr = LibRanges[libIndex].start
-        local addr = baseAddr + v.offset
+        local addr = tonumber(v.methodPointer or v.MethodPointer)
         local size = tonumber(v.size) or 1
         if size < 1 then size = 1 end
 
