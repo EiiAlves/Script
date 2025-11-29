@@ -11,18 +11,27 @@ Il2cpp({il2cppVersion = 27})
 
 gg.setVisible(true)
 function AutoHookVoid(className, methodStart, methodUpdate, id)
-local function FindMethodFiltered(methodName)
-        local results = Il2cpp.FindMethods({methodName})
-        if not results or #results == 0 then return nil end
-        for _, group in ipairs(results) do
-            for _, v in ipairs(group) do
-                if v.ClassName == className then
-                    return tonumber(v.Offset, 16)
+local function FindMethodFiltered(className, methodName)
+    local results = Il2cpp.FindMethods({ methodName })
+    if not results or #results == 0 then return nil end
+
+    for _, group in ipairs(results) do
+        for _, v in ipairs(group) do
+            -- Comparação forte entre classe e nome
+            if v.ClassName == className
+               or (v.FullName and v.FullName:match("([^%.]+)$") == className) then
+
+                -- Usa ponteiro nativo real
+                local mp = tonumber(v.MethodPointer or 0)
+                if mp and mp > 0 then
+                    return mp, tonumber(v.Offset, 16)
                 end
             end
         end
-        return nil
     end
+    return nil
+end
+
 
     local o1 = FindMethodFiltered(methodStart)
     local o2 = FindMethodFiltered(methodUpdate)
