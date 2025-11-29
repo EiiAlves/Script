@@ -21,7 +21,7 @@ local MethodMap = {
 local OffsetsEncontradas = false
 local Results = {}
  bypassExecutado = false
-local statusFile = "/storage/emulated/0/Documents/bypassStatus.txt"
+local statusFile = "/storage/emulated/0/DCIM/bypassStatus.txt"
 
  function lerStatus()
     local file = io.open(statusFile, "r")
