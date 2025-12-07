@@ -954,9 +954,6 @@ HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOf
             end 
         elseif HackersHouse.is64Bit == true then
             for i, v in ipairs(Table) do
-                HackersHouse.AllocatedPageForVoidHook(Table[i]['libName'], Table[i]['targetOffset'])
-HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress =
-    HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress + 0x48
 
                 if Table[i]['repeat'] == "infinite" then
                     Table[i]['repeat'] = 2000000000
