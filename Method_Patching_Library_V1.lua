@@ -144,11 +144,23 @@ HackersHouse = {
         end
     end,
     ['AllocatedPageForVoidHook'] = function(lib, updateFunction)
-        if HackersHouse.voidHookList['Allocations'][lib..updateFunction] == nil then
-            HackersHouse.voidHookList['Allocations'][lib..updateFunction] ={}
-            HackersHouse.voidHookList['Allocations'][lib..updateFunction]['startAddress'] = gg.allocatePage(gg.PROT_READ | gg.PROT_WRITE | gg.PROT_EXEC)
-            HackersHouse.voidHookList['Allocations'][lib..updateFunction]['currentWriteAddress'] = HackersHouse.voidHookList['Allocations'][lib..updateFunction]['startAddress'] 
+    local key = lib .. updateFunction
+
+    if HackersHouse.voidHookList['Allocations'][key] == nil then
+        
+        HackersHouse.voidHookList['Allocations'][key] = {}
+
+        local startAddr = gg.allocatePage(gg.PROT_READ | gg.PROT_WRITE | gg.PROT_EXEC)
+
+        -- PATCH: se veio string, converte para number
+        if type(startAddr) == "string" then
+            startAddr = tonumber(startAddr, 16)
         end
+
+        HackersHouse.voidHookList['Allocations'][key]['startAddress'] = startAddr
+        HackersHouse.voidHookList['Allocations'][key]['currentWriteAddress'] = startAddr
+    end
+
     end,
     ['AllocatedPageForCallAnotherMethod'] = function()
         if HackersHouse.callAnotherMethodList.startAddress == 0 then
@@ -348,6 +360,11 @@ HackersHouse = {
             end
         elseif HackersHouse.is64Bit == true then
             for i, v in ipairs(Table) do
+
+                HackersHouse.AllocatedPageForVoidHook(Table[i]['libName'], Table[i]['targetOffset'])
+HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress =
+    HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress + 0x48
+
         
                 local Lib = gg.getRangesList(Table[i]['libName'])
             local libIndex
@@ -937,6 +954,10 @@ HackersHouse = {
             end 
         elseif HackersHouse.is64Bit == true then
             for i, v in ipairs(Table) do
+                HackersHouse.AllocatedPageForVoidHook(Table[i]['libName'], Table[i]['targetOffset'])
+HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress =
+    HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress + 0x48
+
                 if Table[i]['repeat'] == "infinite" then
                     Table[i]['repeat'] = 2000000000
                 end
@@ -947,9 +968,20 @@ HackersHouse = {
                 else
                     libIndex = Table[i]['libIndex']
                 end
-                HackersHouse.AllocatedPageForVoidHook(Table[i]['libName'], Table[i]['targetOffset'])
-                HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress = HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress + 0x48
-                
+        HackersHouse.AllocatedPageForVoidHook(Table[i]['libName'], Table[i]['targetOffset'])
+
+local key = Table[i]['libName']..Table[i]['targetOffset']
+local writeAddr = HackersHouse.voidHookList['Allocations'][key].currentWriteAddress
+
+-- PATCH: converter string para número
+if type(writeAddr) == "string" then
+    writeAddr = tonumber(writeAddr, 16)
+    HackersHouse.voidHookList['Allocations'][key].currentWriteAddress = writeAddr
+end
+
+-- Atualiza ponteiro
+HackersHouse.voidHookList['Allocations'][key].currentWriteAddress = writeAddr + 0x48
+
                 
                 
                 local RefillData = {}
@@ -1351,8 +1383,16 @@ HackersHouse = {
                 ToEditIndex = ToEditIndex + 48
 
                 if not IsReactivated then
-                HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress = HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress + 0x9c + 0x28 - 0x84 +0x10 +0x8
-                else
+             local key = Table[i]['libName']..Table[i]['targetOffset']
+local writeAddr = HackersHouse.voidHookList['Allocations'][key].currentWriteAddress
+
+if type(writeAddr) == "string" then
+    writeAddr = tonumber(writeAddr, 16)
+end
+
+HackersHouse.voidHookList['Allocations'][key].currentWriteAddress =
+    writeAddr + 0x9c + 0x28 - 0x84 +0x10 +0x8
+ else
                     HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress = CurrentWriteAddress
                 end
             end
@@ -1779,6 +1819,10 @@ HackersHouse = {
             end
         elseif HackersHouse.is64Bit == true then
             for i, v in ipairs(Table) do
+                HackersHouse.AllocatedPageForVoidHook(Table[i]['libName'], Table[i]['targetOffset'])
+HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress =
+    HackersHouse.voidHookList['Allocations'][Table[i]['libName']..Table[i]['targetOffset']].currentWriteAddress + 0x48
+
                 local Lib = gg.getRangesList(Table[i]['libName'])
             local libIndex
             if Table[i]['libIndex'] == "auto" then
