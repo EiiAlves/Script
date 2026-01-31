@@ -452,6 +452,11 @@ end
                         "Spawn Xmoth 🌙🦋",
                         "Spawn Decmoth 🍂🦋",
                         "Spawn RedPaper 🐝♦️",
+                        "Spawn Prado 🌿",
+                        "Spawn Viuva 🕷️",
+                        "Spawn Praia 🏖️",
+                        "Spawn Joaninha 🐞",
+                        "Spawn Falcao 🦅",
                         "⬅️ Voltar"
                     }) -- 26 opções
 
@@ -484,8 +489,14 @@ end
                     if new_menu[25] then SpawnMariposaDecaida() end
                     if new_menu[26] then SpawnVespaVermelha() end
 
+                    if new_menu[28] then SpawnWidow() end
+                    if new_menu[27] then SpawnMeadow() end
+                    if new_menu[29] then SpawnBeach() end
+                    if new_menu[30] then SpawnLadybug() end
+                    if new_menu[31] then SpawnHawk() end
+
                     -- Opção para voltar ao menu principal
-                    if new_menu[27] then break end
+                    if new_menu[32] then break end
                 end
             end
         end
@@ -619,7 +630,7 @@ function melzinho()
         else 
             AutoHookVoid("MovePlayer","MoveDungeon","Update")
             gg.sleep(50)
-            AutoHookVoid("MovePlayer","Update")
+            AutoUnhookVoid("MovePlayer","Update")
         end
 
         AutoHH.disable("BlackSoldier", "Die", "disable")
@@ -1053,6 +1064,41 @@ function SpawnVespaVermelha()
     gg.toast("Spawned ✅")
 end
 
+function SpawnMeadow()
+    AutoHookVoid("PopulateMap", "SpawnMeadow", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
+    gg.toast("Spawned ✅")
+end
+
+function SpawnWidow()
+    AutoHookVoid("PopulateMap", "SpawnWidow", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
+    gg.toast("Spawned ✅")
+end
+
+function SpawnBeach()
+    AutoHookVoid("PopulateMap", "SpawnBeach", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
+    gg.toast("Spawned ✅")
+end
+
+function SpawnLadybug()
+    AutoHookVoid("PopulateMap", "SpawnLadybug", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
+    gg.toast("Spawned ✅")
+end
+
+function SpawnHawk()
+    AutoHookVoid("PopulateMap", "SpawnHawk", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
+    gg.toast("Spawned ✅")
+end
+
 
 function SpawnRandomInsect()
 hook_void(UpdatePopulateMap, AwakePopulateMap,1)
@@ -1094,27 +1140,11 @@ end
 
 function Season()
 
-local input = gg.prompt({"Digite o Valor 0 - 175"}, {' '}, {'HackersHouse'})
 
-if input then
-local valorSeason = tonumber(input[1])
-if valorSeason ~= nil and valorSeason %1==0 then
-
-HackersHouse.voidHook({
-
-                { ['libName'] = "libil2cpp",            --Update - Season
-                  ['targetOffset'] = UpdateSeason,
-                  ['destinationOffset'] = ClaimReward,    --ClaimReward - Season
-                  ['parameters'] ={ { "int", valorSeason}}, 
-                  ['repeat'] = 1,
-                  ['libIndex'] = 'auto'
-                }})
+AutoHookVoid("Season","ClaimReward", "ToggleHide")
+gg.sleep(5000)
                 gg.toast("sᴜᴄᴄᴇss")
-               else gg.toast("Valor Incorreto")
-              end
-              
-             else gg.toast("Cancelado")
-   end
+                AutoUnhookVoid("Season", "ToggleHide")
 end
 --➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 
@@ -1130,6 +1160,7 @@ HackersHouse.voidHook({
                 }})
                 gg.toast("sᴜᴄᴄᴇss")
 end
+
 --➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 function Fungo()
 HackersHouse.voidHook({
@@ -1606,16 +1637,9 @@ function Verify()
              Trof="❌"
              gg.toast("ENCERRANDO...")
   
-     HackersHouse.disableMethodOff({
-      { ['libName'] = "libil2cpp", 
-        ['offset'] = LoadCoolDown
-      }
-    })
-    HackersHouse.callAnotherMethodOff({
-      { ['libName'] = "libil2cpp",
-        ['targetOffset'] = GetPlayer
-      }
-    })
+    AutoHH.restore("FindOpponent","LoadCoolDown")
+
+ callAnotherMethodOff("DungeonGenerator", "GetPlayer", "GetPlayerBot")  
    -- SpeedTimerTrofOff()
     end
     
@@ -1624,47 +1648,42 @@ end
 function FarmTrof()
         if Trof == "❌" then Trof ="✅"
         --SpeedTimerTrof()
-          HackersHouse.disableMethod({
-                  { ['libName'] = "libil2cpp", 
-                    ['offset'] = LoadCoolDown, 
-                    ['libIndex'] = 'auto'
-                  }
-                })
-           HackersHouse.callAnotherMethod({
-              { ['libName'] = "libil2cpp",
-                ['targetOffset'] = GetPlayer,
-                ['destinationOffset'] = GetPlayerBot,
-                ['parameters'] ={}, 
-                ['libIndex'] = 'auto'
-              }
-            })
+   
+                 AutoHH.disable("FindOpponent", "LoadCoolDown", "disable")
+                 
+                callAnotherMethod("DungeonGenerator", "GetPlayer", "GetPlayerBot")  
                 
                 while Trof=="✅" do 
                 Verify()
                 gg.sleep(1000)
                 Verify()
-                hook_void
-                (
-                UpdateFindOpponent, FindAndRemoveShield ,1
-                ) 
+
+                AutoHookVoid("FindOpponent","FindAndRemoveShield","Update")
+
                 gg.sleep(300)
-                endhook(UpdateFindOpponent ,1)
+
+                AutoUnhookVoid("FindOpponent","Update")
+
                 gg.sleep(10000)
                Verify() 
-                hook_void                
-                (
-                UpdatePVPHandler, Win ,1)
+
+                    
+                AutoHookVoid("PVPHandler","Win","Update")
+
                 gg.sleep(300)
-                endhook(UpdatePVPHandler ,1)
+
+                AutoUnhookVoid("PVPHandler","Update")
+
                 gg.sleep(500)
              
-                Verify()   
-                hook_void
-                (
-                UpdatePVPHandler, Continue,1
-                ) 
+                Verify() 
+                
+                AutoHookVoid("PVPHandler","Continue","Update")
+
                 gg.sleep(300)
-                endhook(UpdatePVPHandler ,1)
+
+                AutoUnhookVoid("PVPHandler","Update")
+
                 
      
                 gg.toast("Farmando...")             
