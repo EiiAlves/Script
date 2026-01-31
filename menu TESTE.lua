@@ -74,8 +74,6 @@ function AutoHookVoid(className, methodStart, methodUpdate)
 
     -- 🔥 key É OBRIGATÓRIA para seu hook_void
     hook_void(oUpdate, oStart, key)
-    gg.sleep(300)
-    endhook(oUpdate, key)
 
     ActiveHooks[key] = {
         update = oUpdate,
@@ -388,7 +386,7 @@ end
          if Mobile == "OFF" then gg.alert"Disponivel no Mobile 📱" return START() end
         -- Opção 6 (Speed Game)
         SpeedTimer()
-    elseif Menu == 7 then if Mobile == "OFF" then gg.alert"Disponivel no Mobile 📱" return START() end
+    elseif Menu == 7 then
         -- Opção 7 (Spawn Inseto)
         while true do
             menu = gg.multiChoice({
@@ -620,7 +618,10 @@ function melzinho()
             callAnotherMethod("MovePlayer", "MoveDungeon", "Call10Soldiers")
         else 
             AutoHookVoid("MovePlayer","MoveDungeon","Update")
+            gg.sleep(50)
+            AutoHookVoid("MovePlayer","Update")
         end
+
         AutoHH.disable("BlackSoldier", "Die", "disable")
 
         callAnotherMethod("DungeonGenerator", "Next", "GenerateCreature")
@@ -783,265 +784,275 @@ elseif Insect == "✅" then
      Insect = "❌"
  gg.toast("Changed ❌")
 end
+
 end
 
---PopulateMap
+--[[function spawnarAuto()
+    local Update = nil
+    if Mobile == "ON" then Update = "Update" else Update = "SpawnRandomInsect"
+    end
+end]]
+--PopulateMap 
+Update = (Mobile == "ON") and "Update" or "SpawnRandomInsect"
+Time = (Mobile == "ON") and 50 or 10000
+
 function SpawnSpider()
-AutoHookVoid("PopulateMap", "SpawnSpider", "Update")
+    AutoHookVoid("PopulateMap","SpawnSpider", Update)
+gg.toast("Use Feromonio")
 
-    
+gg.sleep(Time)
 
-gg.sleep(50)
+ AutoUnhookVoid("PopulateMap",Update)
 
- AutoUnhookVoid("PopulateMap ", "Update")
  gg.toast("Spawned ✅")
 end
 
 function SpawnMantis()
-    AutoHookVoid("PopulateMap", "SpawnMantis", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnMantis", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnTBeetle()
-    callAnotherMethod("PopulateMap", "SpawnTBeetle", "Update")
-    gg.sleep(1000)
-    callAnotherMethodOff("PopulateMap", "SpawnTBeetle", "Update")
+    AutoHookVoid("PopulateMap", "SpawnTBeetle", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
 
     gg.toast("Spawned ✅")
 end
 
 function SpawnBombardier()
-    AutoHookVoid("PopulateMap", "SpawnBombardier", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnBombardier", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnScorpion()
-    AutoHookVoid("PopulateMap", "SpawnScorpion", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnScorpion", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnRBeetle()
-    AutoHookVoid("PopulateMap", "SpawnRBeetle", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnRBeetle", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnCButter()
-    AutoHookVoid("PopulateMap", "SpawnCbutter", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnCbutter", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnCent()
-    AutoHookVoid("PopulateMap", "SpawnCent", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnCent", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnHornet()
-    AutoHookVoid("PopulateMap", "SpawnHornet", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnHornet", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnDragon()
-    AutoHookVoid("PopulateMap", "SpawnDragon", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnDragon", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnFantasma()
-    AutoHookVoid("PopulateMap", "SpawnGhost", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnGhost", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnOrquidea()
-    AutoHookVoid("PopulateMap", "SpawnOrchid", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnOrchid", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnFlorM()
-    AutoHookVoid("PopulateMap", "SpawnFlowerm", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnFlowerm", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnJoia()
-    AutoHookVoid("PopulateMap", "SpawnJewel", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnJewel", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnEstandarte()
-    AutoHookVoid("PopulateMap", "SpawnPennant", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnPennant", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnLibelulaAzul()
-    AutoHookVoid("PopulateMap", "SpawnSkimmer", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnSkimmer", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnEsmeralda()
-    AutoHookVoid("PopulateMap", "SpawnEmerald", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnEmerald", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnGalhada()
-    AutoHookVoid("PopulateMap", "SpawnAntler", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnAntler", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnVagalume()
-    AutoHookVoid("PopulateMap", "SpawnFirefly", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnFirefly", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnCaveira()
-    AutoHookVoid("PopulateMap", "SpawnSkull", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnSkull", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnBesouroX()
-    AutoHookVoid("PopulateMap", "SpawnXBeetle", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnXBeetle", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnFlowerChaufer()
-    AutoHookVoid("PopulateMap", "SpawnChaufer", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnChaufer", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnSibilante()
-    AutoHookVoid("PopulateMap", "SpawnHisser", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnHisser", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnRosa()
-    AutoHookVoid("PopulateMap", "SpawnPink", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnPink", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnTrilobita()
-    AutoHookVoid("PopulateMap", "SpawnTrilo", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnTrilo", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnCianeto()
-    AutoHookVoid("PopulateMap", "SpawnCyanide", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnCyanide", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnFFlang()
-    AutoHookVoid("PopulateMap", "SpawnFlang", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnFlang", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnLLugu()
-    AutoHookVoid("PopulateMap", "SpawnLugu", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnLugu", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnFestivo()
-    AutoHookVoid("PopulateMap", "SpawnFestive", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnFestive", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnManticora()
-    AutoHookVoid("PopulateMap", "SpawnManticore", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnManticore", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnEEmp()
-    AutoHookVoid("PopulateMap", "SpawnEmp", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnEmp", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnJJunc()
-    AutoHookVoid("PopulateMap", "SpawnJunc", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnJunc", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnBButter()
-    AutoHookVoid("PopulateMap", "SpawnButter", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnButter", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnMariposaX()
-    AutoHookVoid("PopulateMap", "SpawnXmoth", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnXmoth", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnMariposaDecaida()
-    AutoHookVoid("PopulateMap", "SpawnDecmoth", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnDecmoth", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
 
 function SpawnVespaVermelha()
-    AutoHookVoid("PopulateMap", "SpawnRedwasp", "Update")
-    gg.sleep(50)
-    AutoUnhookVoid("PopulateMap", "Update")
+    AutoHookVoid("PopulateMap", "SpawnRedwasp", Update)
+    gg.sleep(Time)
+    AutoUnhookVoid("PopulateMap", Update)
     gg.toast("Spawned ✅")
 end
+
 
 function SpawnRandomInsect()
 hook_void(UpdatePopulateMap, AwakePopulateMap,1)
