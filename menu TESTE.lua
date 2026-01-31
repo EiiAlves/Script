@@ -619,7 +619,7 @@ function melzinho()
         if Mobile =="OFF" then 
             callAnotherMethod("MovePlayer", "MoveDungeon", "Call10Soldiers")
         else 
-            AutoHookVoid("DungeonGenerator","MoveDungeon","Update")
+            AutoHookVoid("MovePlayer","MoveDungeon","Update")
         end
         AutoHH.disable("BlackSoldier", "Die", "disable")
 
