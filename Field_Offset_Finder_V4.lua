@@ -12,7 +12,7 @@
 
 
 
-userMode = 1 -- 1 = Developer mode, 2 = user mode
+userMode = 0 -- 1 = Developer mode, 2 = user mode
 
 
 
@@ -39,7 +39,7 @@ end
 
 
 
-function mainMenu()
+--[[function mainMenu()
    firstMenu = gg.multiChoice({ "Cheat 1", "Cheat 2", "Sub Menu", "❌EXIT❌" }, nil, "Script Made by hackers house yt")
    if firstMenu == nil then
       goto nill
@@ -77,7 +77,7 @@ function subMenu()
    end
    ::ni::
 end
-
+]]
 function cheat_1()
    valueFromClass("PlayerController", "0xD8", false, true, gg.TYPE_DWORD)
    gg.getResults(9999)
