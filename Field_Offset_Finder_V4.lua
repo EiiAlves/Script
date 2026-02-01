@@ -35,7 +35,7 @@ function updateChecker()
    end
 end
 
-updateChecker() -- delete this if you want to stop checking for update, but if you get any errors I won't help you, because i am going to bring more better version of feild offset finder, and i don't want people to complain about the old version when new version already solves the problem, so it is considered best to keep update check on
+--updateChecker() -- delete this if you want to stop checking for update, but if you get any errors I won't help you, because i am going to bring more better version of feild offset finder, and i don't want people to complain about the old version when new version already solves the problem, so it is considered best to keep update check on
 
 
 
@@ -1675,26 +1675,4 @@ ComplexFeildsHandlers = {
 }
 
 --[[ ℹ️ It will create an UI button and loop until user clicks the UI. If clicked calls start() ]] --
-function UI()
-   gg.showUiButton()
-   while true do
-      if gg.isClickedUiButton() then
-         start()
-      end
-   end
-end
 
-function stopClose()
-   while true do
-      mainMenu()
-      gg.setVisible(false)
-      while gg.isVisible() == false do
-      end
-   end
-end
-
-if userMode == 2 then
-   stopClose()
-else
-   UI()
-end
