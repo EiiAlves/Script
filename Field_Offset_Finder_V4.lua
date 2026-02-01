@@ -464,7 +464,7 @@ end
 
 function O_initial_search()
    gg.setVisible(false)
-   gg.toast("🟢Hackers House: First Try")
+   gg.toast("🟢Carregando")
    user_input = ":" .. Get_user_input[1]
    if Get_user_input[3] then
       offst = 25
@@ -1038,7 +1038,6 @@ function start()
 end
 
 function second_start()
-   gg.toast("🟡Hackers House: Second Try")
    O_dinitial_search()
    if error > 1 then
       return 0
@@ -1072,7 +1071,7 @@ function second_start()
 end
 
 function third_start()
-   gg.toast("🔴Hackers House: Third Try")
+
    O_dinitial_search()
    if error > 2 then
       return 0
@@ -1108,7 +1107,6 @@ function third_start()
 end
 
 function fourth_start()
-   gg.toast("☢️Hackers House: Fourth Try")
    O_dinitial_search()
    CA_pointer_search()
    CA2_apply_offset()
