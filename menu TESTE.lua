@@ -361,7 +361,6 @@ end
         "🍯 [8] Melzinho        "..Mel,
         "🧪 [9] Metamorfose",
         "🐝 [10] Colmeia",
-        
         "♦️ [11] Recompensas Temporada",
         "⚔️ [12] AutoWin",
         "💀 [13] Upgrade Colônia",
@@ -369,6 +368,7 @@ end
         "🎭 [15] Skin",
         "🌰 [16]Acorns      "..Acorns,
         "💰 [17]Quest        "..Quest,
+        "💀 [18]ChamberMax     ",
         "🔄 Dispositivo     " ..Mobile,
         "🚪 LogOut",
     }, nil, "🎮 Bem-vindo " .. usuario .. "!")
@@ -598,18 +598,52 @@ end
     elseif Menu == 17 then
         -- Opção 17 (Skin)
         AllSkin()
-    elseif Menu == 21 then
+    elseif Menu == 22 then
         -- Opção 19 (LogOut)
         fazerLogout()
- elseif Menu == 20 then
+ elseif Menu == 21 then
     Verificacao()
  elseif Menu== 18 then
-     InstaCapture()
+     Acorn()
  elseif Menu== 19 then Quests()
+    elseif Menu== 20 then ChamberMax()
 end
 
 
 end
+
+
+function ChamberMax()
+    local SearchTp = 'h FF 7F 00 00 2D 00 00 00 00 00 C0 3F 00 00 00 41'
+    gg.setRanges(gg.REGION_ANONYMOUS)
+    gg.clearResults()
+    gg.searchNumber(SearchTp, gg.TYPE_BYTE)
+    gg.refineNumber('45', gg.TYPE_BYTE)
+    
+    local TP = gg.getResults(100)
+    local AllResults = {}
+    local offsets = {0x8C, 0x90, 0x94, 0x98, 0x9C, 0xA0, 0xA4, 0xA8, 0xAC}
+
+    for _, v in ipairs(TP) do
+        for _, off in ipairs(offsets) do
+            table.insert(AllResults, {
+                address = v.address + off,
+                flags = gg.TYPE_DWORD, -- já define o tipo aqui
+                value = 12            -- já define o valor direto
+            })
+        end
+    end
+
+    -- 🔹 usa setValues direto
+    gg.setValues(AllResults)
+
+    gg.toast("Alteração concluída com sucesso!")
+    gg.clearResults()
+    gg.clearList()
+end
+
+
+    --214 748 364 806Q;107 374 182 450Q;4 294 967 321Q;1Q;64 424 509 440Q:17
 
 function SpeedTimer()
     gg.setRanges(gg.REGION_C_DATA)
@@ -1714,8 +1748,8 @@ pcall(load(API))
 end
 end
 
-UpdateC = (Mobile == "📱") and "Update" or "RecoverTime"
-TimeC = (Mobile == "📱") and 50 or 10000
+UpdateC = (Mobile == "📱") and "Update" or "BuildUpgradeNew"
+TimeC = (Mobile == "📱") and 50 or 1000
 
 function CamaraFolha()
 AutoHookVoid("ColonyMenu", "CompleteLeaf", UpdateC)
@@ -1725,54 +1759,63 @@ end
 
 function CamaraOvo()
     AutoHookVoid("ColonyMenu", "CompleteEgg", UpdateC)
+    gg.toast("Click to Build")
     gg.sleep(TimeC)
     AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraRainha()
     AutoHookVoid("ColonyMenu", "CompleteQueen", UpdateC)
+    gg.toast("Click to Build")
     gg.sleep(TimeC)
     AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraInseto()
     AutoHookVoid("ColonyMenu", "CompleteInsect", UpdateC)
+    gg.toast("Click to Build")
     gg.sleep(TimeC)
     AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraResina()
     AutoHookVoid("ColonyMenu", "CompleteResine", UpdateC)
+    gg.toast("Click to Build")
     gg.sleep(TimeC)
     AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraMel()
     AutoHookVoid("ColonyMenu", "CompleteHoney", UpdateC)
+    gg.toast("Click to Build")
     gg.sleep(TimeC)
     AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraAgua()
     AutoHookVoid("ColonyMenu", "CompleteWater", UpdateC)
+    gg.toast("Click to Build")
     gg.sleep(TimeC)
     AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraFungo()
     AutoHookVoid("ColonyMenu", "CompleteFood", UpdateC)
+    gg.toast("Click to Build")
     gg.sleep(TimeC)
     AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraEscravidao()
     AutoHookVoid("ColonyMenu", "CompleteSlave", UpdateC)
+    gg.toast("Click to Build")
     gg.sleep(TimeC)
     AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraSemente()
     AutoHookVoid("ColonyMenu", "CompleteSeed", UpdateC)
+    gg.toast("Click to Build")
     gg.sleep(TimeC)
     AutoUnhookVoid("ColonyMenu", UpdateC)
 end
