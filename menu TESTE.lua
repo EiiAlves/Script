@@ -17,6 +17,10 @@ io.open("Il2cppApi.lua","w+"):write(gg.makeRequest("https://raw.githubuserconten
 
 require('Il2cppApi')
 
+io.open("Field_Offset_Finder_V4.lua","w+"):write(gg.makeRequest("https://raw.githubusercontent.com/EiiAlves/Script/main/Field_Offset_Finder_V4.lua").content):close()
+
+require('Field_Offset_Finder_V4')
+
 Il2cpp({il2cppVersion = 27})
 
 
@@ -39,6 +43,24 @@ gg.setVisible(true)
 -- =========================
 -- HOOK VOID SIMPLES
 -- =========================
+function FindField(className, fieldOffset, valueType)
+    local results = valueFromClass(
+        className,
+        fieldOffset,
+        false,                      -- tryHard
+        not gg.getTargetInfo().x64, -- auto 32/64
+        valueType
+    )
+
+    if #results == 0 then
+        gg.toast("❌ Field não encontrado")
+        return nil
+    end
+
+    -- retorna TUDO, sem editar nada
+    return results
+end
+
 
 local ActiveHooks = {}
 
@@ -264,9 +286,8 @@ end
 
 
 
-
-
-
+local Quest = "❌"
+local Acorns = "❌"
 local Soldado = "❌"
 local Worker = "❌"
 local Player = "❌"
@@ -302,7 +323,7 @@ if Player =="❌" then gg.toast("❌") else gg.toast("✅")
 end
 end
 
-local Mobile = "ON"
+local Mobile = "📱"
 -- Função do menu
 function Verificacao()
     Verify = gg.choice({ "Emulador 💻","Mobile 📱"})
@@ -310,7 +331,7 @@ function Verificacao()
         Verificacao()
         return
     end
-if Verify == 1 then Mobile = "OFF" else Mobile = "ON"
+if Verify == 1 then Mobile = "💻" else Mobile = "📱"
 end
 end
 
@@ -337,16 +358,19 @@ end
         "🪳 [5] Spawn Inseto",
         "💯 [6] Fusão",
         "💀 [7] All Item",
-        "🍯 [8] Melzinho",
+        "🍯 [8] Melzinho        "..Mel,
         "🧪 [9] Metamorfose",
         "🐝 [10] Colmeia",
+        
         "♦️ [11] Recompensas Temporada",
         "⚔️ [12] AutoWin",
         "💀 [13] Upgrade Colônia",
-        "🏆 [14] Farm Troféu",
+        "🏆 [14] Farm Troféu"       ..Trof,
         "🎭 [15] Skin",
+        "🌰 [16]Acorns      "..Acorns,
+        "💰 [17]Quest        "..Quest,
+        "🔄 Dispositivo     " ..Mobile,
         "🚪 LogOut",
-        "🔄 Dispositivo",
     }, nil, "🎮 Bem-vindo " .. usuario .. "!")
 
     if Menu == nil then
@@ -383,7 +407,7 @@ end
         if menu[4] then Insetos() end
     elseif 
     Menu == 6 then
-         if Mobile == "OFF" then gg.alert"Disponivel no Mobile 📱" return START() end
+         if Mobile == "💻" then gg.alert"Disponivel no Mobile 📱" return START() end
         -- Opção 6 (Speed Game)
         SpeedTimer()
     elseif Menu == 7 then
@@ -503,7 +527,7 @@ end
     elseif Menu == 8 then
         -- Opção 8 (Fusão)
         Fusao()
-    elseif Menu == 9 then if Mobile == "OFF" then gg.alert"Disponivel no Mobile 📱" return START() end
+    elseif Menu == 9 then if Mobile == "💻" then gg.alert"Disponivel no Mobile 📱" return START() end
         -- Opção 9 (All Item)
         while true do
             menu = gg.multiChoice({"Diamante", "Fungo", "Folha", "Semente", "Inseto", "Resina", "Agua", "Melada", "Token", "Ficha Flores",
@@ -530,16 +554,16 @@ end
     elseif Menu == 11 then
         -- Opção 11 (Gold)
         Gold()
-    elseif Menu == 12 then if Mobile == "OFF" then gg.alert"Disponivel no Mobile 📱" return START() end
+    elseif Menu == 12 then 
         -- Opção 12 (Colmeia)
         Colmeia()
-    elseif Menu == 13 then if Mobile == "OFF" then gg.alert"Disponivel no Mobile 📱" return START() end
+    elseif Menu == 13 then if Mobile == "💻" then gg.alert"Disponivel no Mobile 📱" return START() end
         -- Opção 13 (Recompensas Temporada)
         Season()
-    elseif Menu == 14 then if Mobile == "OFF" then gg.alert"Disponivel no Mobile 📱" return START() end
+    elseif Menu == 14 then if Mobile == "💻" then gg.alert"Disponivel no Mobile 📱" return START() end
         -- Opção 14 (AutoWin)
         AutoWin()
-    elseif Menu == 15 then if Mobile == "OFF" then gg.alert"Disponivel no Mobile 📱" return START() end
+    elseif Menu == 15 then 
         -- Opção 15 (Upgrade Colônia)
         while true do
             menu = gg.choice({
@@ -568,17 +592,20 @@ end
             if menu == 9 then CamaraResina() end
             if menu == 10 then CamaraAgua() end
         end
-    elseif Menu == 16 then if Mobile == "OFF" then gg.alert"Disponivel no Mobile 📱" return START() end
+    elseif Menu == 16 then if Mobile == "💻" then gg.alert"Disponivel no Mobile 📱" return START() end
         -- Opção 16 (Farm Troféu)
         FarmTrof()
     elseif Menu == 17 then
         -- Opção 17 (Skin)
         AllSkin()
-    elseif Menu == 18 then
-        -- Opção 18 (LogOut)
+    elseif Menu == 21 then
+        -- Opção 19 (LogOut)
         fazerLogout()
- elseif Menu == 19 then
+ elseif Menu == 20 then
     Verificacao()
+ elseif Menu== 18 then
+     InstaCapture()
+ elseif Menu== 19 then Quests()
 end
 
 
@@ -625,24 +652,33 @@ end
 
 function melzinho()
     if Mel == "❌" then
-        if Mobile =="OFF" then 
-            callAnotherMethod("MovePlayer", "MoveDungeon", "Call10Soldiers")
-        else 
-            AutoHookVoid("MovePlayer","MoveDungeon","Update")
-            gg.sleep(50)
-            AutoUnhookVoid("MovePlayer","Update")
-        end
+ 
 
         AutoHH.disable("BlackSoldier", "Die", "disable")
 
         callAnotherMethod("DungeonGenerator", "Next", "GenerateCreature")
 
         callAnotherMethod("DungeonGenerator", "GiveHoneyReward", "CancelCancel")  
+               if Mobile =="💻" then 
+                
+            AutoHookVoid("MovePlayer","MoveDungeon","AutoClicker")
+            gg.sleep(10)
+            Mel = "✅"
+            Mel = "✅"
+            Mel = "✅"
+            Mel = "✅"
+            Mel = "✅"
+                 gg.sleep(5000)
+            AutoUnhookVoid("MovePlayer","AutoClicker")
+        else 
+            AutoHookVoid("MovePlayer","MoveDungeon","Update")
+            gg.sleep(50)
+            AutoUnhookVoid("MovePlayer","Update")
+        end
         
         
         
-        Mel = "✅"
-        gg.toast("Ativando melzinho"..Mel)
+        gg.toast("Ativando melzinho     "..Mel)
     else
         callAnotherMethodOff("DungeonGenerator", "GiveHoneyReward", "CancelCancel")  
         callAnotherMethodOff("DungeonGenerator","Next","GenerateCreature")
@@ -726,6 +762,7 @@ AutoHH.disable("Bombardier", "FindBlackAnts", "disable")
     else
       AutoUnhookVoid("PVPCentEnemy", "FindBlackAnts")
       AutoUnhookVoid("PVPRBeetleEnemy ", "FindBlackAnts")
+      AutoUnhookVoid("Cent", "FindBlackAnts")
 AutoHH.restore("PVPBombardierEnemy", "FindBlackAnts")
 AutoHH.restore("Bombardier", "FindBlackAnts")
 AutoHH.restore("PVPCannon", "Fire")
@@ -804,8 +841,9 @@ end
     end
 end]]
 --PopulateMap 
-Update = (Mobile == "ON") and "Update" or "SpawnRandomInsect"
-Time = (Mobile == "ON") and 50 or 10000
+
+Update = (Mobile == "📱") and "Update" or "SpawnRandomInsect"
+Time = (Mobile == "📱") and 50 or 10000
 
 function SpawnSpider()
     AutoHookVoid("PopulateMap","SpawnSpider", Update)
@@ -1368,11 +1406,36 @@ end
 function BeeMode()
 
 if Bee== "❌" then Bee="✅"
- 
-AutoHookVoid("MovePlayer","StartBeeMode", "Update")
-else
-AutoHookVoid("MovePlayer","EndBeeMode", "Update")
-Bee="❌"
+
+    if Mobile =="📱" then
+AutoHookVoid("MovePlayer","StartBeeMode", "Update")   
+        gg.sleep(100)
+AutoUnhookVoid("MovePlayer", "Update")
+
+    else 
+AutoHookVoid("MovePlayer","StartBeeMode", "AutoClicker")   
+        gg.sleep(2000)
+ AutoUnhookVoid("MovePlayer", "AutoClicker")
+
+    end
+    return
+end
+
+if Bee=="✅" then Bee= "❌"
+
+    if Mobile =="📱" then
+AutoHookVoid("MovePlayer","EndBeeMode", "Update")   
+        gg.sleep(100)
+        AutoUnhookVoid("MovePlayer", "Update")
+
+    else 
+
+AutoHookVoid("MovePlayer","EndBeeMode", "AutoClicker")   
+        gg.sleep(2000)
+        AutoUnhookVoid("MovePlayer", "AutoClicker")
+
+    end
+return
 end
 end
 
@@ -1399,13 +1462,27 @@ end
 end
 ]]
 function Colmeia()
+    if Mobile =="📱" then
 AutoHookVoid("MovePlayer","StartBeeMode", "Update")   
-        gg.sleep(100)
+ gg.sleep(10)
+ AutoUnhookVoid("MovePlayer", "Update")   
+ gg.sleep(100)      
+
 AutoHookVoid("MovePlayer","MoveInBeehive", "Update")   
+ gg.sleep(10)
+ AutoUnhookVoid("MovePlayer", "Update")
+    else 
 
+AutoHookVoid("MovePlayer","StartBeeMode", "AutoClicker")   
+        gg.sleep(1000)  
+ AutoUnhookVoid("MovePlayer", "AutoClicker")
 
-
-gg.sleep(1000)
+AutoHookVoid("MovePlayer","MoveInBeehive", "AutoClicker")  
+gg.sleep(1000) 
+ AutoUnhookVoid("MovePlayer", "AutoClicker")
+ gg.toast("Fique Dentro da Colmeia!!")
+    end
+gg.sleep(2000)
 
 gg.setRanges(gg.REGION_ANONYMOUS)
     gg.clearResults()
@@ -1442,18 +1519,126 @@ gg.setRanges(gg.REGION_ANONYMOUS)
     
     for i = 5, 1, -1 do
         gg.toast("Tempo restante: " .. i .. " segundos")
-        gg.sleep(5000) -- 1 segundo (1000 ms)
+        gg.sleep(3) -- 1 segundo (1000 ms)
     end
-AutoHookVoid("MovePlayer","MoveOutBeehive", "Update")  
+if Mobile =="📱" then
+
+AutoHookVoid("MovePlayer","MoveOutBeehive", "Update") 
+        gg.sleep(50)
+ AutoUnhookVoid("MovePlayer", "Update")
 gg.sleep(500)
 AutoHookVoid("MovePlayer","MoveOUTAntHill", "Update")  
   gg.sleep(50)
-AutoHookVoid("MovePlayer","MoveToAntHill", "Update")  
-  
-gg.sleep(500)
+  AutoUnhookVoid("MovePlayer", "Update")
+  gg.sleep(50)
+AutoHookVoid("MovePlayer","MoveToAntHill", "Update") 
+gg.sleep(50 )
+  AutoUnhookVoid("MovePlayer", "Update")
+gg.sleep(200)
 
 AutoHookVoid("MovePlayer","EndBeeMode", "Update")
+gg.sleep(50)
+AutoUnhookVoid("MovePlayer", "Update")
+
+else 
+
+   AutoHookVoid("MovePlayer","MoveOutBeehive", "AutoClicker") 
+        gg.sleep(500)
+ AutoUnhookVoid("MovePlayer", "AutoClicker")
+
+AutoHookVoid("MovePlayer","MoveOUTAntHill", "AutoClicker")  
+  gg.sleep(500)
+  AutoUnhookVoid("MovePlayer", "AutoClicker")
+
+AutoHookVoid("MovePlayer","EndBeeMode", "AutoClicker")
+gg.sleep(5000)
+AutoUnhookVoid("MovePlayer", "AutoClicker") 
 end
+end
+
+function Acorn()
+if Acorns == "❌" then 
+         gg.setRanges(gg.REGION_ANONYMOUS)
+            gg.clearResults()
+            gg.clearList()
+            gg.searchNumber("197 572 790 583 296", gg.TYPE_QWORD)
+            gg.refineNumber("197 572 790 583 296", gg.TYPE_QWORD)
+        
+            local r2 = gg.getResults(gg.getResultsCount())
+            gg.clearResults()
+            gg.clearList()
+            gg.sleep(400)
+        
+            for i, v in ipairs(r2) do
+                v.address = v.address - 0x4 -- Alterar para a direção correta
+                v.flags = 4
+                v.value = 0
+                v.freeze = true
+            end
+  
+            gg.setValues(r2)
+           -- gg.editAll(R2, 4)
+            gg.addListItems(r2)
+            gg.clearResults()
+  callAnotherMethod("Acorns","GetEggRew","RespawnEgg")
+  Acorns = "✅"
+  gg.toast(Acorns)
+
+  gg.setVisible(false)
+
+  while not gg.isVisible() do 
+  gg.setValues(r2)
+  gg.sleep(100)
+        end
+
+    callAnotherMethodOff("Acorns","GetEggRew","RespawnEgg") Acorns = "❌"
+            gg.toast(Acorns)
+end
+
+end
+
+--[[
+
+function velocidade()
+    if not speed then
+ local R = gg.prompt({"🕖SELECIONE A VELOCIDADE🕖\n➖➖➖➖➖➖➖➖➖➖ [1041313291; 1047313291]"},
+    { [1] = defaultValue },
+    { [1] = "number" })
+
+ if R == nil then 
+        gg.toast("Cancelled") 
+        return 
+    end
+
+    local results = FindField("MovePlayer", "0x124", gg.TYPE_FLOAT)
+    if not results then return end
+
+    -- 🔧 DAQUI PRA BAIXO É 100% SEU CONTROLE
+
+gg.loadResults(results)
+
+    local t = gg.getResults(1) -- só o primeiro
+
+    for i, v in ipairs(t) do
+        t[i].value  = tostring(R[1])
+        t[i].flags  = gg.TYPE_FLOAT
+        t[i].freeze = true
+    end
+
+     gg.addListItems(t)
+
+    speed = true
+    gg.toast("🚀 Velocidade ATIVADA")
+
+else
+    gg.clearList()
+    speed = false
+    gg.toast("🐢 Velocidade DESATIVADA")
+end
+
+end
+
+]]
 
 function CreatureEvent()
 if Nozes == "❌" then Nozes ="✅"
@@ -1470,8 +1655,8 @@ callAnotherMethod("CreatureEvent","RaiseActivity","Attract")
         gg.setRanges(gg.REGION_ANONYMOUS)
             gg.clearResults()
             gg.clearList()
-            gg.searchNumber("196 009 422 487 552", gg.TYPE_QWORD)
-            gg.refineNumber("196 009 422 487 552", gg.TYPE_QWORD)
+            gg.searchNumber("197 572 790 583 296", gg.TYPE_QWORD)
+            gg.refineNumber("197 572 790 583 296", gg.TYPE_QWORD)
         
             local r2 = gg.getResults(gg.getResultsCount())
             gg.clearResults()
@@ -1512,12 +1697,11 @@ end
 
 function AutoWin()
 
-hook_void
+      AutoHookVoid("PVPHandler","Win","Update")
 
-(
-UpdatePVPHandler, Win ,1)
-gg.sleep(50)
-endhook(UpdatePVPHandler ,1) -- Update/ Win --PVPHandler
+                gg.sleep(50)
+
+                AutoUnhookVoid("PVPHandler","Update")
 gg.sleep(300)
 gg.toast("GG!")
 end
@@ -1530,106 +1714,69 @@ pcall(load(API))
 end
 end
 
+UpdateC = (Mobile == "📱") and "Update" or "RecoverTime"
+TimeC = (Mobile == "📱") and 50 or 10000
 
 function CamaraFolha()
-
-hook_void
-(
-UpdateColonyMenu, CompleteLeaf ,1
-) 
-gg.sleep(10)
-endhook(UpdateColonyMenu ,1)
+AutoHookVoid("ColonyMenu", "CompleteLeaf", UpdateC)
+gg.sleep(TimeC)
+AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraOvo()
-
-hook_void
-(
-UpdateColonyMenu, CompleteEgg ,1
-) 
-gg.sleep(10)
-endhook(UpdateColonyMenu ,1)
+    AutoHookVoid("ColonyMenu", "CompleteEgg", UpdateC)
+    gg.sleep(TimeC)
+    AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraRainha()
-
-hook_void
-(
-UpdateColonyMenu, CompleteQueen ,1
-) 
-gg.sleep(10)
-endhook(UpdateColonyMenu ,1)
+    AutoHookVoid("ColonyMenu", "CompleteQueen", UpdateC)
+    gg.sleep(TimeC)
+    AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
-function  CamaraInseto()
-
-hook_void
-(
-UpdateColonyMenu, CompleteInsect ,1
-) 
-gg.sleep(10)
-endhook(UpdateColonyMenu ,1)
+function CamaraInseto()
+    AutoHookVoid("ColonyMenu", "CompleteInsect", UpdateC)
+    gg.sleep(TimeC)
+    AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraResina()
-
-hook_void
-(
-UpdateColonyMenu, CompleteResine ,1
-) 
-gg.sleep(10)
-endhook(UpdateColonyMenu ,1)
+    AutoHookVoid("ColonyMenu", "CompleteResine", UpdateC)
+    gg.sleep(TimeC)
+    AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraMel()
-
-hook_void
-(
-UpdateColonyMenu, CompleteHoney ,1
-) 
-gg.sleep(10)
-endhook(UpdateColonyMenu ,1)
+    AutoHookVoid("ColonyMenu", "CompleteHoney", UpdateC)
+    gg.sleep(TimeC)
+    AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraAgua()
-
-hook_void
-(
-UpdateColonyMenu, CompleteWater ,1
-) 
-gg.sleep(10)
-endhook(UpdateColonyMenu ,1)
+    AutoHookVoid("ColonyMenu", "CompleteWater", UpdateC)
+    gg.sleep(TimeC)
+    AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraFungo()
-
-hook_void
-(
-UpdateColonyMenu, CompleteFood ,1
-) 
-gg.sleep(10)
-endhook(UpdateColonyMenu ,1)
+    AutoHookVoid("ColonyMenu", "CompleteFood", UpdateC)
+    gg.sleep(TimeC)
+    AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraEscravidao()
-
-hook_void
-(
-UpdateColonyMenu, CompleteSlave ,1
-) 
-gg.sleep(10)
-endhook(UpdateColonyMenu ,1)
+    AutoHookVoid("ColonyMenu", "CompleteSlave", UpdateC)
+    gg.sleep(TimeC)
+    AutoUnhookVoid("ColonyMenu", UpdateC)
 end
 
 function CamaraSemente()
-
-hook_void
-(
-UpdateColonyMenu, CompleteSeed ,1
-) 
-gg.sleep(10)
-endhook(UpdateColonyMenu ,1)
+    AutoHookVoid("ColonyMenu", "CompleteSeed", UpdateC)
+    gg.sleep(TimeC)
+    AutoUnhookVoid("ColonyMenu", UpdateC)
 end
+
 
 
 function Verify()
@@ -1652,11 +1799,9 @@ function FarmTrof()
                  AutoHH.disable("FindOpponent", "LoadCoolDown", "disable")
                  
                 callAnotherMethod("DungeonGenerator", "GetPlayer", "GetPlayerBot")  
-                
-                while Trof=="✅" do 
-                Verify()
-                gg.sleep(1000)
-                Verify()
+
+                gg.setVisible(false)
+                while not gg.isVisible() do 
 
                 AutoHookVoid("FindOpponent","FindAndRemoveShield","Update")
 
@@ -1664,10 +1809,8 @@ function FarmTrof()
 
                 AutoUnhookVoid("FindOpponent","Update")
 
-                gg.sleep(10000)
-               Verify() 
+                gg.sleep(10000) 
 
-                    
                 AutoHookVoid("PVPHandler","Win","Update")
 
                 gg.sleep(300)
@@ -1675,22 +1818,26 @@ function FarmTrof()
                 AutoUnhookVoid("PVPHandler","Update")
 
                 gg.sleep(500)
-             
-                Verify() 
-                
+
                 AutoHookVoid("PVPHandler","Continue","Update")
 
                 gg.sleep(300)
 
                 AutoUnhookVoid("PVPHandler","Update")
 
-                
-     
                 gg.toast("Farmando...")             
                 
 
              end
-        else 
+
+             Trof="❌"
+             gg.toast("ENCERRANDO...")
+  
+    AutoHH.restore("FindOpponent","LoadCoolDown")
+
+ callAnotherMethodOff("DungeonGenerator", "GetPlayer", "GetPlayerBot")
+
+
         gg.toast(Trof)
         end
 end
@@ -1738,17 +1885,31 @@ gg.sleep(500)
 end
 
 function InstaCapture()
-HackersHouse.voidHook({
 
-                { ['libName'] = "libil2cpp",            --Update - Season
-                  ['targetOffset'] = UpdateFlowerSeeds,
-                  ['destinationOffset'] = ActivateInstaCapture,    --ClaimReward - Season
-                  ['parameters'] ={}, 
-                  ['repeat'] = 1,
-                  ['libIndex'] = 'auto'
-                }})
-                gg.toast("sᴜᴄᴄᴇss")
+    AutoHookVoid("FlowerSeeds", "ActivateInstaCapture", "ShowInv")
+    gg.toast("sᴜᴄᴄᴇss")
+    gg.sleep(5000)
+    AutoUnhookVoid("FlowerSeeds", "ShowInv")
+
+                
 end
+
+
+function Quests()
+ 
+
+if Quest == "❌" then 
+callAnotherMethod("Quests", "ClaimNew", "ClickDaily")
+
+Quest="✅"
+gg.toast(Quest)
+else
+callAnotherMethodOff("Quests", "ClaimNew", "ClickDaily")
+Quest = "❌"
+gg.toast(Quest)
+end
+       end
+
 --[[
 function executeRemoteScript(url)
     local response = gg.makeRequest(url)
