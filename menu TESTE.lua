@@ -323,7 +323,7 @@ if Player =="❌" then gg.toast("❌") else gg.toast("✅")
 end
 end
 
-local Mobile = "📱"
+ Mobile = "📱"
 -- Função do menu
 function Verificacao()
     Verify = gg.choice({ "Emulador 💻","Mobile 📱"})
@@ -331,7 +331,7 @@ function Verificacao()
         Verificacao()
         return
     end
-if Verify == 1 then Mobile = "💻" else Mobile = "📱"
+if Verify == 1 then Mobile = "💻"  elseif Verify == 2 then  Mobile = "📱"
 end
 end
 
@@ -606,7 +606,7 @@ end
  elseif Menu== 18 then
      Acorn()
  elseif Menu== 19 then Quests()
-    elseif Menu== 20 then ChamberMax()
+    elseif Menu== 20 then InstaCapture()
 end
 
 
@@ -629,7 +629,7 @@ function ChamberMax()
             table.insert(AllResults, {
                 address = v.address + off,
                 flags = gg.TYPE_DWORD, -- já define o tipo aqui
-                value = 12            -- já define o valor direto
+                value = 11            -- já define o valor direto
             })
         end
     end
@@ -726,15 +726,15 @@ end
 
 function SoldadoImortal()
     if Soldado == "❌" then Soldado = "✅"
-
-AutoHookVoid("Cent", "Die", "FindBlackAnts")
+AutoHookVoid("RBeetle", "GettingHit", "IdleAround")
+AutoHookVoid("Cent", "GettingHit", "IdleAround")
 AutoHH.disable("BlackSoldier", "Die", "disable")
 AutoHH.disable("DungMovePlayer", "ArmySoldierDie", "disable")
 AutoHH.disable("CoopSoldier", "Die", "disable")
 AutoHH.disable("PVPSoldier", "Die", "disable")
 AutoHH.disable("Bombardier", "FindBlackAnts", "disable")
 AutoHH.disable("BlackSoldier", "DeadByFall", "disable")
-AutoHookVoid("RBeetle", "Die", "FindBlackAnts")
+
 
  SoldadoToast()
  
@@ -781,7 +781,7 @@ function PlayerImortal()
 
 AutoHH.disable("PVPBombardierEnemy", "FindBlackAnts", "disable")
 
-AutoHookVoid("Cent", "Die", "FindBlackAnts")
+AutoHookVoid("Cent", "GettingHit", "FindBlackAnts")
 AutoHookVoid("PVPCentEnemy", "Die", "FindBlackAnts")
 AutoHookVoid("PVPRBeetleEnemy", "Die", "FindBlackAnts")
 AutoHH.disable("PVPCannon", "Fire", "auto")
@@ -878,7 +878,6 @@ end]]
 
 Update = (Mobile == "📱") and "Update" or "SpawnRandomInsect"
 Time = (Mobile == "📱") and 50 or 10000
-
 function SpawnSpider()
     AutoHookVoid("PopulateMap","SpawnSpider", Update)
 gg.toast("Use Feromonio")
@@ -1929,11 +1928,13 @@ end
 
 function InstaCapture()
 
-    AutoHookVoid("FlowerSeeds", "ActivateInstaCapture", "ShowInv")
+   --[[ AutoHookVoid("FlowerSeeds", "ActivateInstaCapture", "ShowInv")
     gg.toast("sᴜᴄᴄᴇss")
     gg.sleep(5000)
     AutoUnhookVoid("FlowerSeeds", "ShowInv")
+]]
 
+callAnotherMethod("CaptureScript", "StartCapture", "AddToArmy")
                 
 end
 
