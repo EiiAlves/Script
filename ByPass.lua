@@ -15,7 +15,15 @@ local MethodMap = {
     { "OnApplicationQuit", "SaveData" },
     { "SaveDevice", "SaveData" },
     { "SuspChambers", "SaveData" },
-    { "Susp", "SaveData" }
+    { "Susp", "SaveData" },
+    { "SusShopZeroCost", "SaveData" },
+    { "AntiSeasonChangebug", "SaveData" },
+    { "RollBackSilk", "SaveData" },
+    { "CheckEvtCrHack", "SaveData" }
+    
+   
+    
+
 }
 
 local OffsetsEncontradas = false
@@ -84,7 +92,17 @@ end
     gg.alert("⚠️ EXECUTAR NO MENU DO JOGO ⚠️")
     FindMethods()
 
-    local methodsToDisable = { "GetIp", "AutoBan", "OnApplicationQuit", "SaveDevice", "SuspChambers", "Susp" }
+    local methodsToDisable = { "GetIp", 
+    "AutoBan",
+     "OnApplicationQuit", 
+     "SaveDevice", 
+       "SuspChambers",
+  "Susp",
+    "SusShopZeroCost",
+      "AntiSeasonChangebug" ,
+        "RollBackSilk",
+         "CheckEvtCrHack"    
+    }
 
     for _, methodName in ipairs(methodsToDisable) do
         if Results[methodName] then
